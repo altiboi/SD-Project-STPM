@@ -1,0 +1,43 @@
+[ 
+    {
+        "PersonID": "1",
+        "Role": "Resident",
+        "Name": "John Doe",
+        "Email": "john@example.com",
+        "Phone": "+123456789",
+        "BiometricData": "...",
+        "PropertyID": "A123",
+        "UnitID": "101",
+        "onPremises": false,
+        "Salt": "random_salt_value",
+        "HashedPassword": "hashed_password_value"
+    },
+    {
+        "PersonID": "2",
+        "Role": "Admin",
+        "Name": "Jane Smith",
+        "Email": "jane@example.com",
+        "Phone": "+987654321",
+        "BiometricData": "...",
+        "PropertyID": "A123",
+        "UnitID": null,
+        "onPremises": true,
+        "Salt": "random_salt_value",
+        "HashedPassword": "hashed_password_value"
+    },
+    {
+        "PersonID": "3",
+        "Role": "Staff",
+        "Name": "Alice Johnson",
+        "Email": "alice@example.com",
+        "Phone": "+112233445",
+        "BiometricData": null,
+        "PropertyID": null,
+        "UnitID": null,
+        "onPremises": true,
+        "Job": "Maintenance Technician",
+        "StartDate": "2023-01-15",
+        "Salt": "random_salt_value",
+        "HashedPassword": "hashed_password_value"
+      }
+]
