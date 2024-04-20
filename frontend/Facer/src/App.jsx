@@ -1,37 +1,29 @@
-import { useState } from 'react'
 import FaceAuth from './pages/FaceAuth'
-import {BrowserRouter, Routes, Route} from 'react-router-dom'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Login from './pages/Login'
+import { Auth0Provider, useAuth0 } from "@auth0/auth0-react";
+import Loading from "./components/Loading";
 
-import './App.css'
+const App = () => {
+  const { isLoading, error } = useAuth0();
 
-function App() {
-  return(
+  if (error) {
+    return <div>Oops... {error.message}</div>;
+  }
 
-    <div>
+  if (isLoading) {
+    return <Loading />;
+  }
 
+  return (
       <BrowserRouter>
-
-      <Routes>
-
-        <Route index element = {<Login/>}></Route>
-        <Route path="/home" element = {<Login/>}></Route>
-        <Route path="/face" element = {<FaceAuth/>}></Route>
-
-      </Routes>
-      
-      
-      
+        <Routes>
+          <Route index element={<Login />} />
+          <Route path="/home" element={<Login />} />
+          <Route path="/face" element={<FaceAuth />} />
+        </Routes>
       </BrowserRouter>
-      
-      
-
-
-
-
-    </div>
-
-  )
+  );
 }
 
-export default App
+export default App;
