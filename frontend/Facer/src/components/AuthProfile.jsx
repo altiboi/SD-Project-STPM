@@ -1,11 +1,11 @@
 import React from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import './Profile.css'
+import '../pages/Profile.css'
 
-const Profile = () => {
-  const { user, logout } = useAuth0();
+const AuthProfile = () => {
+  const { user, logout, isAuthenticated} = useAuth0();
 
-  return (
+  return (isAuthenticated && ( 
     <div className="profile-wrapper">
       <h2>Welcome, {user.name}!</h2>
       <p>Email: {user.email}</p>
@@ -13,7 +13,7 @@ const Profile = () => {
         Log Out
       </button>
     </div>
-  );
+  ));
 };
 
-export default Profile;
+export default AuthProfile;

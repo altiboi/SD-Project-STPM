@@ -1,5 +1,5 @@
 import React from "react";
-import './Login.css'
+import './Login.css';
 import { FaUser, FaLock } from "react-icons/fa";
 import {useNavigate} from 'react-router-dom'
 import { useAuth0 } from "@auth0/auth0-react";
