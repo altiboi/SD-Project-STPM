@@ -4,11 +4,13 @@ import '../pages/Profile.css'
 
 const AuthProfile = () => {
   const { user, logout, isAuthenticated} = useAuth0();
-
+  console.log(user);
+  
   return (isAuthenticated && ( 
     <div className="profile-wrapper">
       <h2>Welcome, {user.name}!</h2>
       <p>Email: {user.email}</p>
+      <p>Role: {user.role}</p>
       <button onClick={() => logout({ returnTo: window.location.origin })}>
         Log Out
       </button>

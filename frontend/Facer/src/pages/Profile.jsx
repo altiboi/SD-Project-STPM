@@ -9,6 +9,7 @@ const Profile = () => {
     <div className="profile-wrapper">
       <h2>Welcome, {user.name}!</h2>
       <p>Email: {user.email}</p>
+      <p>Role: {user.role}</p>
       <button onClick={() => logout({ returnTo: window.location.origin })}>
         Log Out
       </button>
