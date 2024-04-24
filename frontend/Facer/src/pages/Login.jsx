@@ -11,8 +11,9 @@ function Login()
     function handleVerify() {
         navigator("/face")
     }
-
-    const { loginWithRedirect } = useAuth0();
+    function handleLogin(){
+        navigator("/profile")
+    }
 
     return (
         <div className="wrapper">
@@ -30,7 +31,7 @@ function Login()
 
             <br />
 
-            <button onClick={() => loginWithRedirect()}>Login</button>
+            <button onClick={handleLogin}>Login</button>
 
 
 
