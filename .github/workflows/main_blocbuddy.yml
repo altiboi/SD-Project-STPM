@@ -26,6 +26,7 @@ jobs:
 
       - name: Install dependencies, build, and test
         run: |
+          cd /home/runner/work/SD-Project-STPM/SD-Project-STPM/frontend/Facer
           npm install
           npm run build --if-present
           npm run test --if-present
