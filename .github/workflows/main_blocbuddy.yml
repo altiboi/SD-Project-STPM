@@ -58,6 +58,6 @@ jobs:
         uses: azure/webapps-deploy@v3
         with:
           app-name: BlocBuddy
-          slot-name: 'Production'
+          slot-name: 'production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE }} # Publish profile should always be stored as secrets in your repository Settings - Secrets and variables - Actions - secrets
           package: .
