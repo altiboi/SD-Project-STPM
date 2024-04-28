@@ -6,16 +6,20 @@ import './Profile.css'
 const Profile = () => {
   const { user, logout, isAuthenticated} = useAuth0();
   const [role, setRole] = useState(null);
+  const [phoneNumber, setPhoneNumber] = useState(null);
+  const [propName, setPropName] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isReady, setIsReady] = useState(false); // Track component readiness
 
   useEffect(() => {
     const fetchUserRole = async () => {
       try {
-        const response = await fetch(`/api/userRole?email=${user.email}`);
+        const response = await fetch(`backend/src/userManagement/getUser.js?email=${user.email}`);
         if (response.ok) {
-          const data = await response.json();
-          setRole(data.role);
+          const data = await response.body();
+          setRole(data.Role);
+          setPhoneNumber(data.Phone);
+          setPropName(data.PropertyName);
         } else {
           console.error('Failed to fetch user role:', response.status, response.statusText);
         }
@@ -42,6 +46,8 @@ const Profile = () => {
         <h2>Welcome, {user.name}!</h2>
         <p>Email: {user.email}</p>
         <p>Role: {role}</p>
+        <p>Number: {phoneNumber}</p>
+        <p>Property Name: {propName}</p>
         <button onClick={() => logout({ returnTo: window.location.origin })}>
           Log Out
         </button>
