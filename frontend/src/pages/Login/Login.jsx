@@ -12,7 +12,7 @@ function Login()
         navigator("/face")
     }
     function handleLogin(){
-        navigator("/profile")
+        navigator("/dashboard")
     }
 
     return (

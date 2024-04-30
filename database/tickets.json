@@ -1,0 +1,36 @@
+[
+    {
+      "_id": "612e556a9c171c26e8d121ae",
+      "user_id": "611f37abff4cfcb9b0305ba7",
+      "staff_id": null,
+      "ticket_subject": "Broken Light Fixture",
+      "ticket_description": "The light fixture in the hallway on the 2nd floor is broken and needs replacement.",
+      "status": "open",
+      "dateOpened": "2024-04-01T08:00:00.000Z",
+      "dateClosed": null,
+      "feedback": ""
+    },
+    {
+      "_id": "612e556a9c171c26e8d121af",
+      "user_id": "612e554e9c171c26e8d121ac",
+      "staff_id": "611f37b8ff4cfcb9b0305ba8",
+      "ticket_subject": "Leaky Faucet",
+      "ticket_description": "The faucet in Unit 203 is leaking. It needs to be fixed as soon as possible.",
+      "status": "in progress",
+      "dateOpened": "2024-04-02T10:30:00.000Z",
+      "dateClosed": null,
+      "feedback": ""
+    },
+    {
+      "_id": "612e556a9c171c26e8d121b0",
+      "user_id": "612e554e9c171c26e8d121ad",
+      "staff_id": null,
+      "ticket_subject": "Garden Maintenance",
+      "ticket_description": "The garden in the common area needs maintenance. Weeds need to be removed and plants need watering.",
+      "status": "closed",
+      "dateOpened": "2024-03-29T11:45:00.000Z",
+      "dateClosed": "2024-03-30T15:20:00.000Z",
+      "feedback": "The garden looks great now. Thanks for the quick response!"
+    }
+  ]
+  
