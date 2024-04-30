@@ -1,5 +1,5 @@
 import React from 'react';
-
+import pp from './pp.png'
 
 const residents =[
     {
@@ -45,7 +45,7 @@ const residents =[
 ];
 
 
-function InProgress() {
+function InProgress( {handleTicket} ) {
     
  
 
@@ -55,8 +55,8 @@ function InProgress() {
                 <div key={index} className="comp">
                     <article className="insComp">
                         <section className="profile">
-                            <img src="pp.png" alt="" />
-                            <p className="name">
+                            <img src={pp} alt="" />
+                            <p onClick={() => handleTicket()} className="name">
                                 {person.name}
                             </p>
                         </section>

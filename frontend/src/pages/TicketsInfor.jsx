@@ -1,5 +1,4 @@
 import React from 'react';
-
 import pp from './pp.png'
 const residents =[
     {
@@ -93,44 +92,38 @@ const residents =[
         "room_on": 504
     }
 ]
+
 ;
 
 
-function Unsolved({handleTicket}) {
-    
- 
+function TicketsInfor({ personName, handleTicket, ifAssignedClicked }) {
+    const person = residents.find(person => person.id == personName);
+
+    if (!person) {
+        return <p>No resident found with that name.</p>;
+    }
 
     return (
         <>
-            {residents.map((person, index) => (
-                <div key={index} className="comp">
-                    <article className="insComp">
-                        <section className="profile">
-                            <img src={pp} alt="" />
-                            <p onClick={() => handleTicket(person.id)}className="name">
-                                {person.name}
-                            </p>
-                        </section>
-                        <ul className="vC">
-                            <li className="variables">{person.title}</li>
-                            <li className="variables">{person.room_on}</li>
-                            <li className="variables">{person.time}</li>
-                        </ul>
+            <article>
+                <section className="sect1">
+                    <article className="head">
+                        <img src={pp} id="image" alt="Profile" />
+                        <h5 className="Caption">{person.title}</h5>
                     </article>
-                </div>
-            ))}
+                    <p>{person.time}</p>
+                </section>
+                <section className="sect2">
+                    <p>
+                        {person.description}
+                    </p>
+                </section>
+                <section className="sect4">
+                    <button onClick={() => ifAssignedClicked('Assigned',person.name,person.title)}>Assign</button>
+                </section>
+            </article>
         </>
     );
 }
 
-function UnsolvedValue() {
-    return (
-        <p id="Num_Solved">{residents.length}</p>
-    );
-}
-function number1(){
-    return residents.length ;
-}
-export {number1};
-export { UnsolvedValue }; // Export Value as a named export
-export default Unsolved; // Export Residents as the default export
+export default TicketsInfor; // Export Residents as the default export

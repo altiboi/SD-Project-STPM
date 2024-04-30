@@ -7,6 +7,11 @@ import  total ,  {TicketsPop}  from './Tickets';
 import Unsolved from './Unsolved';
 import InProgress from './InProgress';
 import Solved from './Solved';
+import TheTicket from './TheTicket';
+import pp from './pp.png'
+import business from './images/bus.png'
+import StaffAssign from './StuffAssing'
+import TaskAssigned from './TaskAssigned';
 
 function App() {
     // State variables if needed
@@ -14,8 +19,16 @@ function App() {
     const [numTickets, setNumTickets] = useState(0);
     const [numStaff, setNumStaff] = useState(0);
     const [ticketsPopOpen, setTicketsPopOpen] = useState(false);
+    const [TicketOpen, setTicketOpen] = useState(false);
     const [ViewContain, setViewContain] = useState(false);
-
+    const [NamePerson, setName] = useState(null);
+    const [NamePerson1, setName1] = useState(null);
+    const [title, setTitle] = useState(null);
+    const [isAssigned, setIsAssignd] = useState(false);
+    const [StaffName, setStaffName] = useState(null);
+    const [taskAssigned, istaskAssigned] = useState(false);
+    const [currentTime, setCurrentTime] = useState(new Date());
+    const [formattedTime,setformattedTime]=useState(null);
     const ResidentsHeader = () => {
         return (
             <nav id="ViewBoxnav" className='ViewBoxNav'>
@@ -92,13 +105,31 @@ function App() {
             </nav>
         );
     };
-
-    const handleUnsolvedTicketsClick = () => {
-        // Your logic for handling unsolved tickets click event
+    const StaffAssingHeader = () => {
+        return (
+            <nav id="viewBocNav" className='ViewBoxNav'>
+                <h5>Choose a staff member to assign a task</h5>
+                <section className="title">
+                    <h4>Name</h4>
+                    <ul>
+                        <li>Status:</li>
+                        <li>Role:</li>
+                        <li>UnitID:</li>
+                    </ul>
+                </section>
+            </nav>
+        );
+    };
+    const ifAssignedClicked = (task, name, title) => {
+        handleCardClick(task);
+        setName1(name);
+        setTitle(title);
     };
 
-    const handleInProgressTicketsClick = () => {
-        // Your logic for handling in-progress tickets click event
+    const TaskAssignedTo = (name) => {
+        setStaffName(name);
+        setIsAssignd(true);
+        istaskAssigned(true)
     };
 
     const handleSolvedTicketsClick = () => {
@@ -108,10 +139,29 @@ function App() {
     const handleTicketClick = () => {
         setTicketsPopOpen(true);
     };
+    const handleTicket = (name) => {
+        setName(name);
+        setTicketOpen(true);
+        const currentTime = new Date();
+        const formattedTime = currentTime.toLocaleTimeString();
+        setCurrentTime(currentTime);
+        setformattedTime(formattedTime);
+        
+        
+    };
+    const close = () => {
+      istaskAssigned(false);
+      setIsAssignd(false)
+        
+        
+    };
 
     const handleCardClick = (cardType) => {
         if(cardType==='Unsolved' || cardType==='InProgress' || cardType==='Solved') {
             setTicketsPopOpen(false);   
+        }
+        if(cardType==='Assigned'){
+            setTicketOpen(false);
         }
         setActiveCard(cardType);
         setViewContain(true);
@@ -120,15 +170,15 @@ function App() {
     const [activeCard, setActiveCard] = useState(null);
 
     return (
-        <>
-            <main id="main" className={ticketsPopOpen ? 'body_close' : ''}>
+        <body>
+            <main id="main" className={ticketsPopOpen || TicketOpen || taskAssigned ? 'body_close' : ''}>
                 <header>
                     <nav className="navigationbar">
                         <section className="sec">
-                            <img src="business.png" alt="logo of the business" />
+                            <img src={business} alt="logo of the business" />
                             <h1>The business Name</h1>
                         </section>
-                        <img id="pp" src="pp.png" alt="user" />
+                        <img id="pp" src={pp} alt="user" />
                         <i className="fa-solid fa-ellipsis-vertical" style={{ marginRight: '10px' }}></i>
                     </nav>
                 </header>
@@ -168,19 +218,22 @@ function App() {
                         {activeCard === 'Unsolved' && <UnsolvedHeader />}
                         {activeCard==='InProgress' && <InProgressHeader/>}
                         {activeCard==='Solved' && <SolvedHeader/>}
+                        {activeCard==='Assigned' && <StaffAssingHeader/>}
                     </section>
                     <section id="viewComp" className="viewComp">
                         {activeCard === 'Residents' && <Residents />}
-                        {activeCard === 'Staff' && <Staff />}
-                        {activeCard==='Unsolved' && <Unsolved/>}
-                        {activeCard==='InProgress' && <InProgress/>}
-                        {activeCard==='Solved' && <Solved/>}
+                        {activeCard === 'Staff' && <Staff  />}
+                        {activeCard==='Unsolved' && <Unsolved handleTicket={handleTicket}/>}
+                        {activeCard==='InProgress' && <InProgress handleTicket={handleTicket}/>}
+                        {activeCard==='Solved' && <Solved handleTicket={handleTicket}/>}
+                        {activeCard==='Assigned' && <StaffAssign TaskAssignedTo={TaskAssignedTo}/>}
                     </section>
                 </article>
             </main>
             <TicketsPop isOpen={ticketsPopOpen} handleCardClick={handleCardClick}/>
-           
-        </>
+            <TheTicket isClicked={TicketOpen}  name={NamePerson} handleCardClick={ifAssignedClicked}/>
+            <TaskAssigned time={formattedTime } close={close} RequestedBy={NamePerson1} TaskName={title} AssignedTo={StaffName} isAssigned={isAssigned}/>
+       </body>
     );
 }
 

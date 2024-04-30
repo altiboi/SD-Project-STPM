@@ -1,182 +1,48 @@
 import React from 'react';
-
-
+import pp from './pp.png'
 const residents =[
     {
-        "name": "Sophia Johnson",
+        "id": 1,
+        "name": "Sophia Mkhize",
         "time": "2024-04-26T08:00:00Z",
         "status": "Urgent",
         "title": "Gas leak",
-        "description": "Strong smell of gas detected in the kitchen.",
+        "description": "Greetings! I hope this message finds you well. I'm writing to inform you about a concerning issue in my kitchen. There's a strong smell of gas detected, and I fear it might be a gas leak. It's imperative to address this immediately for safety reasons. Your prompt attention to this matter is greatly appreciated. Thank you.",
         "room_on": 501
     },
     {
+        "id": 2,
         "name": "Ethan Brown",
         "time": "2024-04-26T08:30:00Z",
         "status": "Not Urgent",
         "title": "Leaking faucet",
-        "description": "The bathroom faucet is leaking continuously.",
+        "description": "Hello! I trust you're doing well. I'm reaching out to report a persistent issue with the bathroom faucet. It's been leaking continuously, causing inconvenience and wasting water. While not urgent, it would be appreciated if this could be fixed at your earliest convenience. Thank you for your attention to this matter.",
         "room_on": 502
     },
     {
+        "id": 3,
         "name": "Emma Smith",
         "time": "2024-04-26T09:00:00Z",
         "status": "Urgent",
         "title": "Broken window",
-        "description": "Living room window shattered due to a storm.",
+        "description": "Dear Management, I hope this message finds you well. Unfortunately, I have to report a troubling incident. During a recent storm, the living room window shattered, posing a safety risk and allowing the elements to enter the house. Urgent action is needed to secure the window and ensure the safety of the residents. Your prompt attention to this matter is highly appreciated. Thank you.",
         "room_on": 503
     },
-    {
-        "name": "William Davis",
-        "time": "2024-04-26T09:30:00Z",
-        "status": "Not Urgent",
-        "title": "Pest infestation",
-        "description": "Ants found in the kitchen cabinets.",
-        "room_on": 504
-    },
-    {
-        "name": "Olivia Martinez",
-        "time": "2024-04-26T10:00:00Z",
-        "status": "Urgent",
-        "title": "Power outage",
-        "description": "Entire house without electricity.",
-        "room_on": 505
-    },
-    {
-        "name": "Noah Taylor",
-        "time": "2024-04-26T10:30:00Z",
-        "status": "Not Urgent",
-        "title": "Malfunctioning thermostat",
-        "description": "Temperature control not working in the living room.",
-        "room_on": 506
-    },
-    {
-        "name": "Ava Wilson",
-        "time": "2024-04-26T11:00:00Z",
-        "status": "Urgent",
-        "title": "Broken door lock",
-        "description": "Front door lock jammed, unable to open.",
-        "room_on": 507
-    },
-    {
-        "name": "James Garcia",
-        "time": "2024-04-26T11:30:00Z",
-        "status": "Not Urgent",
-        "title": "Cracked ceiling",
-        "description": "Cracks noticed in the bedroom ceiling.",
-        "room_on": 508
-    },
-    {
-        "name": "Isabella Rodriguez",
-        "time": "2024-04-26T12:00:00Z",
-        "status": "Urgent",
-        "title": "Fridge malfunction",
-        "description": "Fridge not cooling properly in the kitchen.",
-        "room_on": 509
-    },
-    {
-        "name": "Logan Lopez",
-        "time": "2024-04-26T12:30:00Z",
-        "status": "Not Urgent",
-        "title": "Leaking dishwasher",
-        "description": "Water leaking from the dishwasher in the kitchen.",
-        "room_on": 510
-    },
-    {
-        "name": "Charlotte Hernandez",
-        "time": "2024-04-26T13:00:00Z",
-        "status": "Urgent",
-        "title": "Roof damage",
-        "description": "Leak detected in the attic during heavy rain.",
-        "room_on": 511
-    },
-    {
-        "name": "Mia Gonzalez",
-        "time": "2024-04-26T13:30:00Z",
-        "status": "Not Urgent",
-        "title": "Broken fence",
-        "description": "Backyard fence partially collapsed.",
-        "room_on": 512
-    },
-    {
-        "name": "Lucas Perez",
-        "time": "2024-04-26T14:00:00Z",
-        "status": "Urgent",
-        "title": "Smoke detector malfunction",
-        "description": "Constant beeping from the smoke detector in the hallway.",
-        "room_on": 513
-    },
-    {
-        "name": "Harper Flores",
-        "time": "2024-04-26T14:30:00Z",
-        "status": "Not Urgent",
-        "title": "Garden maintenance",
-        "description": "Overgrown plants in the backyard need trimming.",
-        "room_on": 514
-    },
-    {
-        "name": "Benjamin Ramirez",
-        "time": "2024-04-26T15:00:00Z",
-        "status": "Urgent",
-        "title": "Broken stairs",
-        "description": "One of the stairs leading to the basement is cracked.",
-        "room_on": 515
-    },
-    {
-        "name": "Luna Torres",
-        "time": "2024-04-26T15:30:00Z",
-        "status": "Not Urgent",
-        "title": "HVAC maintenance",
-        "description": "Heating system needs a routine checkup in the basement.",
-        "room_on": 516
-    },
-    {
-        "name": "Mason Washington",
-        "time": "2024-04-26T16:00:00Z",
-        "status": "Urgent",
-        "title": "Burst pipe",
-        "description": "Water flooding in the basement due to a burst pipe.",
-        "room_on": 517
-    },
-    {
-        "name": "Amelia Wood",
-        "time": "2024-04-26T16:30:00Z",
-        "status": "Not Urgent",
-        "title": "Wall paint peeling",
-        "description": "Paint peeling off in the hallway needs repainting.",
-        "room_on": 518
-    },
-    {
-        "name": "Henry Scott",
-        "time": "2024-04-26T17:00:00Z",
-        "status": "Urgent",
-        "title": "Broken toilet",
-        "description": "Toilet in the bathroom not flushing properly.",
-        "room_on": 519
-    },
-    {
-        "name": "Emily Lee",
-        "time": "2024-04-26T17:30:00Z",
-        "status": "Not Urgent",
-        "title": "Window screen torn",
-        "description": "Window screen torn in the bedroom, needs replacement.",
-        "room_on": 520
-    }
-];
+
+]
+;
 
 
-function Solved() {
+function Solved({handleTicket}) {
     
- 
-
     return (
         <>
             {residents.map((person, index) => (
-                <div key={index} className="comp">
+                <section key={index} className="comp">
                     <article className="insComp">
                         <section className="profile">
-                            <img src="pp.png" alt="" />
-                            <p className="name">
+                            <img src={pp} alt="" />
+                            <p onClick={() => handleTicket(person.id)}  className="name">
                                 {person.name}
                             </p>
                         </section>
@@ -186,9 +52,11 @@ function Solved() {
                             <li className="variables">{person.time}</li>
                         </ul>
                     </article>
-                </div>
+                </section>
             ))}
+             
         </>
+     
     );
 }
 

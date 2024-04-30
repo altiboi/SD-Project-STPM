@@ -1,5 +1,6 @@
 import React from 'react';
 import { useEffect } from 'react';
+import pp from './pp.png'
 
 const residents =[
     {
@@ -374,7 +375,7 @@ function Residents() {
                 <div key={index} className="comp">
                     <article className="insComp">
                         <section className="profile">
-                            <img src="pp.png" alt="" />
+                            <img src={pp} alt="" />
                             <p className="name">
                                 {person.name}
                             </p>
