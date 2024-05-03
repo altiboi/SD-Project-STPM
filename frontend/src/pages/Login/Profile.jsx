@@ -15,6 +15,7 @@ const Profile = ({ userData }) => {
         <p>Role: {userData.role}</p>
         <p>Number: {userData.phoneNumber}</p>
         <p>Property Name: {userData.propName}</p>
+        <p>Unit Number: {userData.unitID}</p>
         <button onClick={() => logout({ returnTo: window.location.origin })}>
           Log Out
         </button>

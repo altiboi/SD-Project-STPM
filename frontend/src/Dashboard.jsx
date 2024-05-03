@@ -21,13 +21,14 @@ function Dashboard() {
     role: null,
     phoneNumber: null,
     propName: null,
-    name: null
+    name: null,
+    unitID: null
   });
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
-          const response = await fetch(`https://blocbuddyapi.azurewebsites.net/api/getUser?code=Ck8uIBDdT33M-VtQe1FFX_mwzwREjm3N4MjS7ySEfUO0AzFuYmSb_g==`, {
+          const response = await fetch(`https://blocbuddyapi.azurewebsites.net/api/getUser?`, {
                   method: 'POST',
                   headers: {
                       'Content-Type': 'application/json'
@@ -41,7 +42,8 @@ function Dashboard() {
               role: data.Role,
               phoneNumber: data.Phone,
               propName: data.PropertyName,
-              name: data.Name
+              name: data.Name,
+              unitID: data.UnitID
             });
           } else {
             console.error('Failed to fetch user:', response.status, response.statusText);
@@ -79,7 +81,7 @@ function Dashboard() {
       } else if (userData.role === "Staff") {
         requestBody = { staff_id: userData.user_id };
       }
-      const response = await fetch("https://blocbuddyapi.azurewebsites.net/api/getUserTickets?code=Eh_4ACpN6JGezImVFLd8w6S18PSIzO2nC63TKLy672RRAzFuMdm0kQ==", 
+      const response = await fetch("https://blocbuddyapi.azurewebsites.net/api/getUserTickets?", 
       {
       method: 'POST',
       headers: {

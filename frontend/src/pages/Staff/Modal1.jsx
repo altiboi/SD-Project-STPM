@@ -44,7 +44,7 @@ const Modal = ({ closeModal, onSubmit, defaultValue, userData }) => {
     await formState;
 
     try {
-      const response = await fetch("https://blocbuddyapi.azurewebsites.net/api/createTicket?code=GlR-H5GhRS6j985L916JKkAmvYe50jl5ZcSaXfByXA49AzFuWWxW2Q==", {
+      const response = await fetch("https://blocbuddyapi.azurewebsites.net/api/createTicket?", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
