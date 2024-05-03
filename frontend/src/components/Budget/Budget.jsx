@@ -19,8 +19,8 @@ const Budget = ({ budgetItems }) => {
       </div>
       <div className="grid-c4-content bg-jet">
         <div className="grid-items">
-          {budgetItems.map((budget) => (
-            <div className="grid-item" key={budget._id}>
+          {budgetItems.map((budget, index) => (
+            <div className="grid-item" key={index}>
               <div className="grid-item-l">
                 <div className="icon">
                   <img src={iconsImgs.check} />
@@ -30,7 +30,11 @@ const Budget = ({ budgetItems }) => {
                 </p>
               </div>
               <div className="grid-item-r">
-                <span className="text-silver-v1">{budget.dateOpened}</span>
+              {budget.dateOpened ? (
+        <span className="text-silver-v1">{budget.dateOpened}</span>
+      ) : (
+        <span className="text-silver-v1">Date not available</span>
+      )}
               </div>
             </div>
           ))}

@@ -2,10 +2,10 @@ import "./Dashboard.css";
 import Sidebar from "./components/Sidebar";
 import Content from "./components/Content";
 import Profile from "./pages/Login/Profile";
-import Table from "./pages/Staff/Table";
-import Modal from "./pages/Staff/Modal";
-import Table1 from "./pages/Resident/Modal1"
-import Modal1 from "./pages/Resident/Tabel1"
+import Table from "./pages/Residents/Table";
+import Modal from "./pages/Residents/Modal";
+import Table1 from "./pages/Staff/Table1"
+import Modal1 from "./pages/Staff/Modal1"
 import { useAuth0 } from "@auth0/auth0-react";
 import { useRef, useState, useEffect } from "react";
 import Loading from "./components/Loading";
@@ -72,18 +72,27 @@ function Dashboard() {
 
   const fetchTickets = async () => {
     try {
+      let requestBody = {};
+
+      if (userData.role === "Resident") {
+        requestBody = { user_id: userData.user_id };
+      } else if (userData.role === "Staff") {
+        requestBody = { staff_id: userData.user_id };
+      }
       const response = await fetch("https://blocbuddyapi.azurewebsites.net/api/getUserTickets?code=Eh_4ACpN6JGezImVFLd8w6S18PSIzO2nC63TKLy672RRAzFuMdm0kQ==", 
       {
       method: 'POST',
       headers: {
           'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ user_id : userData.user_id})
+      body: JSON.stringify(requestBody)
       });
 
       if (response.ok) {
         const data = await response.json();
         setTickets(data);
+      } else if (response.status === 404) {
+      setTickets([]);
       } else {
         console.error("Failed to fetch tickets:", response.status, response.statusText);
       }
@@ -106,9 +115,17 @@ function Dashboard() {
     setModalOpen(true);
   };
 
-  const handleSubmit = (newRow) => {
+  const handleSubmit = (newRowItem) => {
+    const currentDate = new Date();
+    const formattedDate = `${String(currentDate.getDate()).padStart(2, '0')}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${currentDate.getFullYear()}`;
+    
+    const newRow = {
+      ...newRowItem,
+      dateOpened: formattedDate,
+    };
+    
     rowToEdit === null
-      ? setTickets([...tickets, newRow])
+      ? setTickets([newRow, ...tickets])
       : setTickets(
           tickets.map((currRow, idx) => {
             if (idx !== rowToEdit) return currRow;
@@ -120,16 +137,16 @@ function Dashboard() {
 
   let ContentComponent;
 
-  if(isReady && tickets != null){
+  if(isReady && tickets != null && userData != null){
     switch (dashboardActiveLinkIdx) {
       case 0:
         ContentComponent = () => <Content budgetItems={tickets} />;
         break;
       case 1:
-        ContentComponent = Table;
+        ContentComponent = userData.role == "Resident" ? Table : Table1;
         break;
       case 3:
-        ContentComponent = Profile;
+        ContentComponent = () => <Profile userData={userData}/>;
         break;
       // Add cases for other activeLinkIdx values as needed
       default:
@@ -168,6 +185,7 @@ function Dashboard() {
               }}
               onSubmit={handleSubmit}
               defaultValue={rowToEdit !== null && tickets[rowToEdit]}
+              userData={userData}
             />
           )}
         </div>

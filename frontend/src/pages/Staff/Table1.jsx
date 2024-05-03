@@ -2,7 +2,7 @@ import React from "react";
 
 import { BsFillTrashFill, BsFillPencilFill } from "react-icons/bs";
 
-import "./Tabel1.css";
+import "./Table1.css";
 
 const Table = ({ rows, deleteRow, editRow }) => {
   return (

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
 import {
   Auth0Provider,
@@ -10,21 +10,34 @@ import Profile from "../pages/Login/Profile";
 import Dashboard from "../Dashboard";
 import FaceRecognition from "../pages/Login/FaceAuth";
 
-const ProtectedRoute = ({ component, options }) => {
-  const defaultOptions = {
-    onRedirecting: () => null,
-  };
-  const combinedOptions = { ...defaultOptions, ...options };
-  const Component = withAuthenticationRequired(component, combinedOptions);
-  return <Component />;
+const ProtectedRoute = ({ component: Component, options }) => {
+  const { isAuthenticated } = useAuth0();
+  if (isAuthenticated) {
+    return <Component />;
+  } else {
+    const defaultOptions = {
+      onRedirecting: () => null,
+    };
+    const combinedOptions = { ...defaultOptions, ...options };
+    const ProtectedComponent = withAuthenticationRequired(Component, combinedOptions);
+    return <ProtectedComponent />;
+  }
 };
 
 const CustomAuth0Provider = ({ children }) => {
   const navigate = useNavigate();
   const { isLoading } = useAuth0();
   const onRedirectCallback = (appState) => {
-    navigate((appState && appState.returnTo) || "/profile");
+    navigate((appState && appState.returnTo) || window.location.pathname);
   };
+
+  useEffect(() => {
+    const isAuthenticated = localStorage.getItem("isAuthenticated") === "true";
+    if (isAuthenticated) {
+      navigate(window.location.pathname);
+    }
+  }, []);
+
   return (
     <Auth0Provider
       domain={process.env.REACT_APP_AUTH0_DOMAIN}
@@ -40,7 +53,7 @@ const CustomAuth0Provider = ({ children }) => {
 };
 
 const Routing = () => {
-  const { isLoading, error } = useAuth0();
+  const { isAuthenticated, isLoading, error } = useAuth0();
 
   if (error) {
     return <div>Oops... {error.message}</div>;
@@ -57,15 +70,10 @@ const Routing = () => {
           <Route index element={<Login />} />
           <Route path="/login" element={<Login />} />
           <Route
-            path="/profile"
-            element={<ProtectedRoute component={Profile} />}
-          />
-          <Route
             path="/dashboard"
             element={<ProtectedRoute component={Dashboard} />}
-            />
+                    />
           <Route path="/face" element={<FaceRecognition />} />
-          <Route path="/dashboard" element={<Dashboard />} />
         </Routes>
       </CustomAuth0Provider>
     </BrowserRouter>
