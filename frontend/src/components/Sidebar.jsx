@@ -32,7 +32,7 @@ const Sidebar = ({ dashboardActiveLinkIdx, setDashboardActiveLinkIdx }) => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-          const response = await fetch(`https://blocbuddyapi.azurewebsites.net/api/getUser?code=Ck8uIBDdT33M-VtQe1FFX_mwzwREjm3N4MjS7ySEfUO0AzFuYmSb_g==`, {
+          const response = await fetch(`https://blocbuddyapi.azurewebsites.net/api/getUser?`, {
                   method: 'POST',
                   headers: {
                       'Content-Type': 'application/json'
