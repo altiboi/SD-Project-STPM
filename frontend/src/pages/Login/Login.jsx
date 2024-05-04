@@ -12,11 +12,12 @@ function Login()
         navigator("/face")
     }
     function handleLogin(){
-        navigator("/profile")
+        navigator("/dashboard")
     }
 
     return (
-        <div className="wrapper">
+        <div className="Body">
+            <div className="wrapper">
            <form action="">
             <h1>Welcome</h1>
             {/* <div className="input-box">
@@ -45,6 +46,7 @@ function Login()
 
 
 
+        </div>
         </div>
     );
 };

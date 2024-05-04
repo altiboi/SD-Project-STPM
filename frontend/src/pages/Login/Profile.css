@@ -37,4 +37,31 @@
   .profile-wrapper button:hover {
     background-color: #f0f0f0;
   }
+
+  .Body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100wh;
+    min-width: 100vw;
+    background: url(../../assets/background.jpg);
+    background-size: auto;
+    background-position: center;
+    flex: 1;
+    padding: 32px;
+  }
+
+  @media screen and (max-width: 1400px){
+    .Body{
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+  }
+
+  @media screen and (max-width: 1200px){
+    .Body{
+      padding-right: 16px;
+      padding-left: 16px;
+    }
+  }
   

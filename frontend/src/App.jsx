@@ -1,9 +1,10 @@
-import FaceAuth from './pages/FaceAuth'
+import FaceAuth from './pages/Login/FaceAuth'
 import { BrowserRouter, Routes, Route, Navigate, useNavigate} from 'react-router-dom'
-import Login from './pages/Login';
-import Profile from './pages/Profile';
+import Login from './pages/Login/Login';
+import Profile from './pages/Login/Profile';
 import { Auth0Provider, useAuth0, withAuthenticationRequired} from "@auth0/auth0-react";
 import Loading from "./components/Loading";
+
 
 const ProtectedRoute = ({ component, options }) => {
   const defaultOptions = {
