@@ -165,6 +165,7 @@ function Dashboard() {
       <Sidebar
         setDashboardActiveLinkIdx={setDashboardActiveLinkIdx}
         dashboardActiveLinkIdx={dashboardActiveLinkIdx}
+        userData = {userData}
       />
 
       {dashboardActiveLinkIdx === 1 ? (

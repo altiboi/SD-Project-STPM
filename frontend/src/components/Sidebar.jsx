@@ -16,51 +16,12 @@ const navigationLinks = [
   { id: 10, title: "Settings", image: iconsImgs.gears },
 ];
 
-const Sidebar = ({ dashboardActiveLinkIdx, setDashboardActiveLinkIdx }) => {
+const Sidebar = ({ dashboardActiveLinkIdx, setDashboardActiveLinkIdx, userData }) => {
   const [activeLinkIdx, setActiveLinkIdx] = useState(0);
   const [sidebarClass, setSidebarClass] = useState("");
   const { isSidebarOpen } = useContext(SidebarContext);
   const { user, logout, isAuthenticated} = useAuth0();
   const [isReady, setIsReady] = useState(false);
-  const [userData, setUserData] = useState({
-    role: null,
-    phoneNumber: null,
-    propName: null,
-    name: null
-  });
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-          const response = await fetch(`https://blocbuddyapi.azurewebsites.net/api/getUser?`, {
-                  method: 'POST',
-                  headers: {
-                      'Content-Type': 'application/json'
-                  },
-                  body: JSON.stringify({ email : user.email})
-              });
-          if (response.ok) {
-            const data = await response.json();
-            setUserData({
-              role: data.Role,
-              phoneNumber: data.Phone,
-              propName: data.PropertyName,
-              name: data.Name
-            });
-          } else {
-            console.error('Failed to fetch user:', response.status, response.statusText);
-          }
-      } catch (error) {
-        console.error('Error fetching user:', error);
-      } finally {
-        setIsReady(true); // Set component readiness
-      }
-    };
-  
-    if (isAuthenticated && user.email) {
-      fetchUser();
-    }
-  }, [isAuthenticated, user]);
 
   useEffect(() => {
     if (isSidebarOpen) {
