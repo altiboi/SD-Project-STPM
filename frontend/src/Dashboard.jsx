@@ -11,7 +11,9 @@ import { useRef, useState, useEffect } from "react";
 import Loading from "./components/Loading";
 import { bufferToImage } from "face-api.js";
 import TicketReport from "./components/TicketReport";
+import FineReport from "./components/FineReport";
 import Fines from "./pages/Residents/Fines";
+import PaymentModal from "./pages/Residents/PaymentModal";
 
 function Dashboard() {
   const navRef = useRef();
@@ -172,18 +174,18 @@ function Dashboard() {
   };
 
   const addFines = (newRowItem) => {
-    const currentDate = new Date();
-    const formattedDate = `${String(currentDate.getDate()).padStart(2, '0')}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${currentDate.getFullYear()}`;
+    // const currentDate = new Date();
+    // const formattedDate = `${String(currentDate.getDate()).padStart(2, '0')}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${currentDate.getFullYear()}`;
     
-    const newRow = {
-      ...newRowItem,
-      dateOpened: formattedDate,
-    };
+    // const newRow = {
+    //   ...newRowItem,
+    //   dateOpened: formattedDate,
+    // };
     
     rowToEdit === null
-      ? setFines([newRow, ...tickets])
-      : setTickets(
-          tickets.map((currRow, idx) => {
+      ? setFines([newRow, ...fines])
+      : setFines(
+          fines.map((currRow, idx) => {
             if (idx !== rowToEdit) return currRow;
 
             return newRow;
@@ -205,7 +207,7 @@ function Dashboard() {
         ContentComponent = () => (
           <div className="report-container">
             <TicketReport tickets={tickets} />
-            <FinesReport fines={fines} />
+            <FineReport fines={fines} />
             <TicketReport tickets={tickets} />
           </div>
         );
@@ -255,19 +257,19 @@ function Dashboard() {
                 setModalOpen(false);
                 setRowToEdit(null);
               }}
-              onSubmit={handleSubmit}
+              onSubmit={addTickets}
               defaultValue={rowToEdit !== null && rows[rowToEdit]}
             />
           )}
 
-          {dashboardActiveLinkIdx === 2 && modalOpen && (
+          {dashboardActiveLinkIdx === 4 && modalOpen && (
             <PaymentModal
               closeModal={() => {
                 setModalOpen(false);
                 setRowToEdit(null);
               }}
-              onSubmit={handleSubmit}
-              defaultValue={rowToEdit !== null && rows[rowToEdit]}
+              onSubmit={addFines}
+              defaultValue={rowToEdit !== null && fines[rowToEdit]}
             />
           )}
         </div>

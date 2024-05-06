@@ -51,7 +51,6 @@ const PaymentModal = ({ closeModal, onSubmit, defaultValue }) => {
             />
           </div>
 
-          {errors && <div className="error">{`Please include: ${errors}`}</div>}
           <button type="submit" className="btn" onClick={handleSubmit}>
             Pay
           </button>

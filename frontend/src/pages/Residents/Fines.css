@@ -15,6 +15,7 @@
   margin: auto;
   table-layout: auto;
   overflow-x: auto;
+  color: black;
 }
 
 .table thead {
