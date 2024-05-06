@@ -10,6 +10,10 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useRef, useState, useEffect } from "react";
 import Loading from "./components/Loading";
 import { bufferToImage } from "face-api.js";
+import TicketReport from "./components/TicketReport";
+import FineReport from "./components/FineReport";
+import Fines from "./pages/Residents/Fines";
+import PaymentModal from "./pages/Residents/PaymentModal";
 
 function Dashboard() {
   const navRef = useRef();
@@ -65,10 +69,12 @@ function Dashboard() {
 
   const [modalOpen, setModalOpen] = useState(false);
   const [tickets, setTickets] = useState(null);
+  const [fines, setFines] = useState(null);
 
   useEffect(() => {
     if(userData.user_id ){
       fetchTickets();
+      fetchFines();
     }
   }, [userData]); // Only run once when the component mounts
 
@@ -105,6 +111,36 @@ function Dashboard() {
     }
   };
 
+  const fetchFines = async () => {
+    try {
+        let requestBody = {resident_id: userData.user_id};
+
+
+        // Make a POST request to the Azure Functions API endpoint
+        const response = await fetch("https://blocbuddyapi.azurewebsites.net/api/fetchUserFines?", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(requestBody)
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            setFines(data);
+        } else if (response.status === 404) {
+            setFines([]);
+        } else {
+            console.error("Failed to fetch fines:", response.status, response.statusText);
+        }
+    } catch (error) {
+        console.error("Error fetching fines:", error);
+    } finally {
+        setIsReady(true);
+    }
+};
+
+
   const [rowToEdit, setRowToEdit] = useState(null);
 
   const handleDeleteRow = (targetIndex) => {
@@ -117,7 +153,7 @@ function Dashboard() {
     setModalOpen(true);
   };
 
-  const handleSubmit = (newRowItem) => {
+  const addTickets = (newRowItem) => {
     const currentDate = new Date();
     const formattedDate = `${String(currentDate.getDate()).padStart(2, '0')}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${currentDate.getFullYear()}`;
     
@@ -137,6 +173,26 @@ function Dashboard() {
         );
   };
 
+  const addFines = (newRowItem) => {
+    // const currentDate = new Date();
+    // const formattedDate = `${String(currentDate.getDate()).padStart(2, '0')}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${currentDate.getFullYear()}`;
+    
+    // const newRow = {
+    //   ...newRowItem,
+    //   dateOpened: formattedDate,
+    // };
+    
+    rowToEdit === null
+      ? setFines([newRow, ...fines])
+      : setFines(
+          fines.map((currRow, idx) => {
+            if (idx !== rowToEdit) return currRow;
+
+            return newRow;
+          })
+        );
+  };
+
   let ContentComponent;
 
   if(isReady && tickets != null && userData != null){
@@ -147,10 +203,21 @@ function Dashboard() {
       case 1:
         ContentComponent = userData.role == "Resident" ? Table : Table1;
         break;
+      case 2:
+        ContentComponent = () => (
+          <div className="report-container">
+            <TicketReport tickets={tickets} />
+            <FineReport fines={fines} />
+            <TicketReport tickets={tickets} />
+          </div>
+        );
+        break;
       case 3:
         ContentComponent = () => <Profile userData={userData}/>;
         break;
-      // Add cases for other activeLinkIdx values as needed
+      case 4:
+        ContentComponent = Fines;
+        break;
       default:
         ContentComponent = () => <Content budgetItems={tickets} />;
     }
@@ -168,27 +235,41 @@ function Dashboard() {
         userData = {userData}
       />
 
-      {dashboardActiveLinkIdx === 1 ? (
+{dashboardActiveLinkIdx === 1 || dashboardActiveLinkIdx === 4 ? (
         <div className="App">
           <ContentComponent
-            rows={tickets}
+            rows={dashboardActiveLinkIdx === 1 ? tickets : fines}
             deleteRow={handleDeleteRow}
             editRow={handleEditRow}
           />
 
-          <button className="btn" onClick={() => setModalOpen(true)}>
-            Add
-          </button>
+          {dashboardActiveLinkIdx === 2 ? (
+            console.log("skipped")
+          ) : (
+            <button className="btn" onClick={() => setModalOpen(true)}>
+              Add
+            </button>
+          )}
 
-          {modalOpen && (
+          {dashboardActiveLinkIdx === 1 && modalOpen && (
             <Modal
               closeModal={() => {
                 setModalOpen(false);
                 setRowToEdit(null);
               }}
-              onSubmit={handleSubmit}
-              defaultValue={rowToEdit !== null && tickets[rowToEdit]}
-              userData={userData}
+              onSubmit={addTickets}
+              defaultValue={rowToEdit !== null && rows[rowToEdit]}
+            />
+          )}
+
+          {dashboardActiveLinkIdx === 4 && modalOpen && (
+            <PaymentModal
+              closeModal={() => {
+                setModalOpen(false);
+                setRowToEdit(null);
+              }}
+              onSubmit={addFines}
+              defaultValue={rowToEdit !== null && fines[rowToEdit]}
             />
           )}
         </div>
