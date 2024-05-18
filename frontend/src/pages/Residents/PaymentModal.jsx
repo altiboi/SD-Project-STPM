@@ -16,8 +16,6 @@ const PaymentModal = ({ closeModal, onSubmit, defaultValue }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    /* if (!validateForm()) return; */
-
     onSubmit(formState);
 
     closeModal();
@@ -35,9 +33,9 @@ const PaymentModal = ({ closeModal, onSubmit, defaultValue }) => {
           <div className="form-group">
             <label htmlFor="fine_amount">Amount</label>
             <input
-              name="fine_amount" // Change here
+              name="fine_amount"
               onChange={handleChange}
-              value={formState.fine_amount} // Change here
+              value={formState.fine_amount} 
               disabled="disabled"
             />
           </div>

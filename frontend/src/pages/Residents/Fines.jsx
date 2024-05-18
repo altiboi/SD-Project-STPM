@@ -14,7 +14,6 @@ const Fines = ({ rows, deleteRow, editRow }) => {
       <table className="table">
         <thead>
           <tr>
-            <th>Fine Ref</th>
             <th className="expand">Description</th>
             <th>Status</th>
             <th>Date Issued</th>
@@ -29,22 +28,21 @@ const Fines = ({ rows, deleteRow, editRow }) => {
 
             return (
               <tr key={idx}>
-                <td>{row.ref}</td>
                 <td className="expand">{row.fine_reason}</td>
                 <td>
                   <span className={`label label-${row.status}`}>
-                    {statusText}
+                    {row.status}
                   </span>
                 </td>
                 <td>{row.date_issued}</td>
                 <td>{row.fine_amount}</td>
-                <td className="pay">
+                {row.status === "Unpaid" ? <td className="pay">
                   <BsCreditCard
                     className="edit-btn"
                     onClick={() => editRow(idx)}
                   />
                   {"Pay now"}
-                </td>
+                </td> : <td>{"Paid"}</td> }
               </tr>
             );
           })}

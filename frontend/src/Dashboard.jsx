@@ -72,11 +72,13 @@ function Dashboard() {
   const [fines, setFines] = useState(null);
 
   useEffect(() => {
-    if(userData.user_id ){
+    if(userData.user_id){
       fetchTickets();
-      fetchFines();
+      if(userData.role === "Resident"){
+        fetchFines();
+      }
     }
-  }, [userData]); // Only run once when the component mounts
+  }, [userData]);
 
   const fetchTickets = async () => {
     try {
@@ -114,7 +116,6 @@ function Dashboard() {
   const fetchFines = async () => {
     try {
         let requestBody = {resident_id: userData.user_id};
-
 
         // Make a POST request to the Azure Functions API endpoint
         const response = await fetch("https://blocbuddyapi.azurewebsites.net/api/fetchUserFines?", {
@@ -204,6 +205,9 @@ function Dashboard() {
         ContentComponent = userData.role == "Resident" ? Table : Table1;
         break;
       case 2:
+        ContentComponent = () => <Fines rows={fines}/>;
+        break;
+      case 3:
         ContentComponent = () => (
           <div className="report-container">
             <TicketReport tickets={tickets} />
@@ -212,18 +216,15 @@ function Dashboard() {
           </div>
         );
         break;
-      case 3:
-        ContentComponent = () => <Profile userData={userData}/>;
-        break;
       case 4:
-        ContentComponent = Fines;
+        ContentComponent = () => <Profile userData={userData}/>;
         break;
       default:
         ContentComponent = () => <Content budgetItems={tickets} />;
     }
   }
 
-  if (!isReady || tickets == null) {
+  if (!isReady || tickets == null || fines == null) {
     return <Loading />;
   }
 
@@ -259,6 +260,7 @@ function Dashboard() {
               }}
               onSubmit={addTickets}
               defaultValue={rowToEdit !== null && rows[rowToEdit]}
+              userData={userData}
             />
           )}
 
