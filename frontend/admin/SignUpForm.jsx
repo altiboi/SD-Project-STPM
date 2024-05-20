@@ -54,7 +54,7 @@ function SignUpForm({ isOpen, closeSignUp }) {
         };
 
         // Send user data to the API endpoint
-        fetch('https://blocbuddyapi.azurewebsites.net/api/addUser?code=IsSteB9s3M4Y7seSs7wJV-8R-8y8lTQDzFN06f8b_44eAzFuKPaQLg==', {
+        fetch('https://blocbuddyapi.azurewebsites.net/api/addUser?', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
