@@ -71,11 +71,15 @@ function Dashboard() {
   // Log activeLinkIdx to the console
   console.log(dashboardActiveLinkIdx);
 
-  const [modalOpen, setModalOpen] = useState(false);
   const [tickets, setTickets] = useState([]);
   const [fines, setFines] = useState([]);
   const [notifications, setNotifications] = useState([]);
   const [notificationsCount, setNotificationsCount] = useState(0);
+
+  const [ticketModalOpen, setTicketModalOpen] = useState(false);
+  const [paymentModalOpen, setPaymentModalOpen] = useState(false);
+  const [notificationModalOpen, setNotificationModalOpen] = useState(false);
+
 
   useEffect(() => {
     if(userData.user_id){
@@ -187,7 +191,17 @@ const fetchNotifications = async () => {
 
   const handleEditRow = (idx) => {
     setRowToEdit(idx);
-    setModalOpen(true);
+    setTicketModalOpen(true);
+  };
+
+  const handlePaymentModal = (idx) => {
+    setRowToEdit(idx);
+    setPaymentModalOpen(true);
+  };
+
+  const handleNotificationModal = (idx) => {
+    setRowToEdit(idx);
+    setNotificationModalOpen(true);
   };
 
   const addTickets = (newRowItem) => {
@@ -272,13 +286,13 @@ const fetchNotifications = async () => {
           ContentComponent = () => <Content budgetItems={tickets} notifications={notifications} fines={fines}/>;
           break;
         case 1:
-          ContentComponent = () => <Table1 rows={tickets}/>;
+          ContentComponent = () => <Table1 rows={tickets} deleteRow={handleDeleteRow} editRow={handleEditRow}/>;
           break;
         case 2:
-          ContentComponent = () => <Fines rows={fines} editRow={handleEditRow}/>;
+          ContentComponent = () => <Fines rows={fines} editRow={handlePaymentModal}/>;
           break;
         case 3:
-          ContentComponent = () => <Notifications rows={notifications} editRow={handleEditRow}/>;
+          ContentComponent = () => <Notifications rows={notifications} editRow={handleNotificationModal}/>;
           break;
         case 4:
           ContentComponent = () => (
@@ -301,10 +315,10 @@ const fetchNotifications = async () => {
           ContentComponent = () => <Content budgetItems={tickets} notifications={notifications} fines={fines}/>;
           break;
         case 1:
-          ContentComponent = () => <Table rows={tickets} />;
+          ContentComponent = () => <Table rows={tickets} deleteRow={handleDeleteRow} editRow={handleEditRow}/>;
           break;
         case 2:
-          ContentComponent = () => <Notifications rows={notifications} editRow={handleEditRow}/>;
+          ContentComponent = () => <Notifications rows={notifications} editRow={handleNotificationModal}/>;
           break;
         case 3:
           ContentComponent = () => (
@@ -336,23 +350,20 @@ const fetchNotifications = async () => {
         notificationsCount={notificationsCount}
       />
 
-      {dashboardActiveLinkIdx === 1 || dashboardActiveLinkIdx === 2 ? (
         <div className="App">
-          <ContentComponent
-          deleteRow={handleDeleteRow} 
-          editRow={handleEditRow}/>
+          <ContentComponent/>
 
           {dashboardActiveLinkIdx === 1 && userData.role === "Resident" &&
           (
-            <button className="btn" onClick={() => setModalOpen(true)}>
+            <button className="btn" onClick={() => setTicketModalOpen(true)}>
               Add
             </button>
           )}
 
-          {dashboardActiveLinkIdx === 1 && userData.role === "Staff" && modalOpen && (
+          {dashboardActiveLinkIdx === 1 && userData.role === "Staff" && ticketModalOpen && (
             <Modal
               closeModal={() => {
-                setModalOpen(false);
+                setTicketModalOpen(false);
                 setRowToEdit(null);
               }}
               onSubmit={fetchTickets}
@@ -361,10 +372,10 @@ const fetchNotifications = async () => {
             />
           )}
 
-          {dashboardActiveLinkIdx === 1 && userData.role === "Resident" && modalOpen && (
+          {dashboardActiveLinkIdx === 1 && userData.role === "Resident" && ticketModalOpen && (
             <Modal1
               closeModal={() => {
-                setModalOpen(false);
+                setTicketModalOpen(false);
                 setRowToEdit(null);
               }}
               onSubmit={fetchTickets}
@@ -373,10 +384,10 @@ const fetchNotifications = async () => {
             />
           )}
 
-          {dashboardActiveLinkIdx === 2 && modalOpen && (
+          {dashboardActiveLinkIdx === 2 && userData.role === "Resident" && paymentModalOpen && (
             <PaymentModal
               closeModal={() => {
-                setModalOpen(false);
+                setPaymentModalOpen(false);
                 setRowToEdit(null);
               }}
               onSubmit={payFine}
@@ -386,10 +397,10 @@ const fetchNotifications = async () => {
 
           {((dashboardActiveLinkIdx === 2 && userData.role === "Staff") || 
           (dashboardActiveLinkIdx === 3 && userData.role === "Resident")) 
-          && modalOpen && (
+          && notificationModalOpen && (
             <NotificationsModal
               closeModal={() => {
-                setModalOpen(false);
+                setNotificationModalOpen(false);
                 setRowToEdit(null);
               }}
               onSubmit={handleViewN}
@@ -397,9 +408,6 @@ const fetchNotifications = async () => {
             />
           )}
         </div>
-      ) : (
-        <ContentComponent />
-      )}
     </div>
   );
 }

@@ -79,9 +79,9 @@ const NotificationsModal = ({ closeModal, onSubmit, defaultValue }) => {
           </div>
           <div className="form-group">
             <label htmlFor="photo">Photo</label>
-            <div className="photo-container">
+            {formState.photo && <div className="photo-container">
               <img src={formState.photo} alt="Notification" className="notification-photo" />
-            </div>
+            </div>}
           </div>
           {errors && <div className="error">{`Please include: ${errors}`}</div>}
         </form>
