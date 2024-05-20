@@ -5,7 +5,7 @@ const PaymentModal = ({ closeModal, onSubmit, defaultValue }) => {
   const [formState, setFormState] = useState(
     defaultValue || {
       fine_amount: "",
-      fine_description: ""
+      fine_reason: ""
     }
   );
 
@@ -16,9 +16,7 @@ const PaymentModal = ({ closeModal, onSubmit, defaultValue }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    /* if (!validateForm()) return; */
-
-    onSubmit(formState);
+    onSubmit(formState.fine_id);
 
     closeModal();
   };
@@ -35,9 +33,9 @@ const PaymentModal = ({ closeModal, onSubmit, defaultValue }) => {
           <div className="form-group">
             <label htmlFor="fine_amount">Amount</label>
             <input
-              name="fine_amount" // Change here
+              name="fine_amount"
               onChange={handleChange}
-              value={formState.fine_amount} // Change here
+              value={formState.fine_amount} 
               disabled="disabled"
             />
           </div>
@@ -46,11 +44,10 @@ const PaymentModal = ({ closeModal, onSubmit, defaultValue }) => {
             <textarea
               name="fine_description"
               onChange={handleChange}
-              value={formState.fine_description}
+              value={formState.fine_reason}
               disabled="disabled"
             />
           </div>
-
           <button type="submit" className="btn" onClick={handleSubmit}>
             Pay
           </button>

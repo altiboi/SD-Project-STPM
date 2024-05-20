@@ -1,15 +1,13 @@
 import React, { useState } from "react";
 import "./Modal1.css";
 
-const Modal = ({ closeModal, onSubmit, defaultValue, userData }) => {
-  const [formState, setFormState] = useState(
-     {
-      ticket_subject: "", // Change here
-      ticket_description: "",
-      status: "open",
-      user_id: userData.user_id
-    }
-  );
+const Modal = ({ closeModal, onSubmit, userData }) => {
+  const [formState, setFormState] = useState({
+    ticket_subject: "",
+    ticket_description: "",
+    status: "open",
+    user_id: userData.user_id
+  });
   const [errors, setErrors] = useState("");
 
   const validateForm = () => {
@@ -41,10 +39,8 @@ const Modal = ({ closeModal, onSubmit, defaultValue, userData }) => {
 
     if (!validateForm()) return;
 
-    await formState;
-
     try {
-      const response = await fetch("https://blocbuddyapi.azurewebsites.net/api/createTicket?", {
+      const response = await fetch("https://blocbuddyapi.azurewebsites.net/api/createTicket", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -53,11 +49,11 @@ const Modal = ({ closeModal, onSubmit, defaultValue, userData }) => {
       });
 
       if (response.ok) {
-        // Call the onSubmit function passed as a prop
         onSubmit(formState);
         closeModal();
       } else {
-        throw new Error(`Failed to add ticket: ${response.status} ${response.statusText}`);
+        const errorText = await response.text();
+        throw new Error(`Failed to add ticket: ${response.status} ${response.statusText} - ${errorText}`);
       }
     } catch (error) {
       console.error("Error adding ticket:", error.message);
@@ -74,20 +70,19 @@ const Modal = ({ closeModal, onSubmit, defaultValue, userData }) => {
       <div className="modal">
         <form>
           <div className="form-group">
-            <label htmlFor="ticket_subject">Ticket Subject</label>{" "}
-            {/* Change here */}
+            <label htmlFor="ticket_subject">Ticket Subject</label>
             <input
-              name="ticket_subject" // Change here
+              name="ticket_subject"
               onChange={handleChange}
-              value={formState.ticket_subject} // Change here
+              value={formState.ticket_subject}
             />
           </div>
           <div className="form-group">
             <label htmlFor="ticket_description">Description</label>
             <textarea
-              name="ticket_description" // Change here
+              name="ticket_description"
               onChange={handleChange}
-              value={formState.ticket_description} // Change here
+              value={formState.ticket_description}
             />
           </div>
 

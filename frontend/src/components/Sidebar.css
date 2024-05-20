@@ -18,7 +18,6 @@
   width: 48px;
   height: 48px;
   overflow: hidden;
-  overflow: hidden;
   border-radius: 100%;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
@@ -60,7 +59,7 @@
   border-radius: 8px;
   display: flex;
   align-items: center;
-  justify-content: flex;
+  justify-content: flex-start;
   padding: 6px 14px;
   column-gap: 12px;
   letter-spacing: 0.03em;
@@ -74,9 +73,12 @@
   background-color: rgb(152, 223, 214);
   box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 25px -5px,
     rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
+
+  color: yellow;
 }
 .nav-link-icon {
   width: 22px;
+  position: relative; /* Add this to position counter relative to icon */
 }
 .nav-link-text {
   text-transform: capitalize;
@@ -137,4 +139,29 @@
   background-color: rgb(152, 223, 214) !important;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 25px -5px,
     rgba(0, 0, 0, 0.04) 0px 10px 10px -5px !important;
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  margin-left: 10px;
+  position: relative;
+}
+
+.counter {
+  width: 15px; 
+  height: 15px; 
+  background-color: red;
+  color: white; 
+  border-radius: 50%;
+  padding: 0; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  font-size: 9px; 
+  line-height: 20px; 
 }

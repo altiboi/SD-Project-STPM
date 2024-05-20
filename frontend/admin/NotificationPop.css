@@ -1,0 +1,116 @@
+.Tickets {
+    top: 150px;
+    left: 250px;
+    position: absolute;
+    margin-left: 40px;
+    width: 810px; 
+    height: 150px;
+    display: flex;
+    scale:0.001;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2),
+                -4px -4px 4px rgba(0, 0, 0, 0.2);
+    flex-direction: row;
+    justify-content: center;
+    transition: 0.5s;
+    align-items: center; 
+    visibility: hidden;
+    
+  }
+  .Tickets_open{
+    top: 250px;
+    left: 250px;
+    position: absolute;
+    margin-left: 40px;
+    width: 810px; 
+    height: 150px;
+    display: flex;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2),
+                -4px -4px 4px rgba(0, 0, 0, 0.2);
+    flex-direction: row;
+    justify-content: center;
+    align-items: center; 
+    transition: 1s;
+    scale: 1;
+    visibility: visible;
+  
+  }
+  
+  .popTicket {
+    position: relative;
+    margin: 10px; 
+    border: 5px solid black;
+    background-color: transparent;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2),
+               -4px -4px 4px rgba(0, 0, 0, 0.2);
+    width: 50%; 
+    height: 70%; 
+    letter-spacing: 0.1em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: 0.5s;
+    flex: 1; 
+  }
+  
+  .popTicket::before,
+  .popTicket::after {
+    content: ' ';
+    position: absolute;
+    width: 20%;
+    height: 5px;
+    background-color: white;
+    transition: 0.5s;
+  }
+  
+  .popTicket::before {
+    top: -5px;
+    left: 80%;
+  }
+  
+  .popTicket::after {
+    bottom: -5px;
+    left: 20%;
+  }
+  
+  .popTicket:hover::before {
+    left: 20%;
+  }
+  
+  .popTicket:hover::after {
+    left: 80%;
+  }
+  
+  .popTicket:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 10px var(--clr);
+    letter-spacing: 0.15em;
+  }
+  
+  .popTicket section {
+    width: 100%;
+    height: 30%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 2px solid black;
+    padding-top: 40px;
+  }
+  
+  .popTicket h5 {
+    position: absolute;
+    bottom: 0;
+    margin-top: -20px;
+    margin-bottom: 10px;
+    font-size: 15px;
+    text-transform: uppercase;
+    transition: 0.5s;
+  }
+  
+  .popTicket p {
+    margin-top: 0px;
+    color: black;
+    font-size: 35px;
+    font-weight: bolder;
+    text-shadow: 4px 4px 1px gray;
+  }

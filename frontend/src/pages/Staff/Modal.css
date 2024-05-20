@@ -49,3 +49,12 @@
   border-radius: 0.3rem;
   margin-bottom: 1rem;
 }
+
+.notification-photo {
+  width: 100%;
+  max-width: 300px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  border-radius: 5%;
+}

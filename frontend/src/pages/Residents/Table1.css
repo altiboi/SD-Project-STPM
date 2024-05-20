@@ -49,15 +49,15 @@
 }
 
 .label-open {
-  background-color: #777;
+  background-color: #d9534f;
 }
 
 .label-closed {
   background-color: #42a942;
 }
 
-.label-unresolved {
-  background-color: #d9534f;
+.label-assigned {
+  background-color: #4fa2e6;
 }
 
 .actions {
