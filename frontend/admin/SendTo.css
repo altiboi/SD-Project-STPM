@@ -1,0 +1,52 @@
+.dropDown{
+    position: absolute;
+    background-color: aquamarine;
+    top: 25.5%;
+    left: 37.5%;
+    height: 120px;
+    width: 110px;
+    padding: 10px;
+    transition: 1s;
+}
+.dropDown_close{
+    position: absolute;
+    background-color: aquamarine;
+    top: 25.5%;
+    left: 37.5%;
+    width: 110px;
+    height: 0;
+    padding: 5px;
+    visibility: hidden;
+}
+.dropDown ul{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+.dropDown ul li{
+    width: 100%;
+    position: relative;
+    list-style: none;
+    font-size: 15px;
+    font-weight: bold;
+    padding: 5px;
+    border-bottom: 2px solid black;
+}
+.dropDown ul li::before{
+    position: absolute;
+    content: ' ';
+    background-color: aqua;
+    width: 2px;
+    height: 0;
+    left: -2px;
+    top: -1px;
+    background-color: white;
+    transition: 0.5s;
+}
+.dropDown ul li:hover::before{
+    height: 30px;
+}
+.dropDown ul li:hover{
+    filter: brightness(10%);
+}
+

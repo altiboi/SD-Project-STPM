@@ -1,0 +1,38 @@
+.SearchBar{
+    position: absolute;
+    width: 50%;
+    height: 5%;
+    top: 48%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    display: flex;
+    align-items: center;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2),
+    -6px -6px 4px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    transition: 1s;
+}
+.SearchBar_close{
+    position: absolute;
+    width: 50%;
+    height: 5%;
+    top: 48%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    display: flex;
+    align-items: center;
+    scale: 0.01;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2),
+    -6px -6px 4px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    visibility: hidden;
+}
+
+.SearchBar input{
+ width: 100%;
+ height: 100%;
+ border-radius: 10px;
+ padding: 0 10px;
+ font-size: 15px;
+ font-weight: bold;
+}

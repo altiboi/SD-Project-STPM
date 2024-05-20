@@ -1,0 +1,115 @@
+.SideBar{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 20%;
+    height: 100%;
+    background-color: rgb(97, 174, 124);
+    display: flex;
+    flex-direction: column;
+    visibility: visible;
+    align-items: center;
+    transition: 1s;
+}
+.SideBar_close{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 100%;
+    background-color: rgb(68, 86, 74);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    visibility: hidden;
+
+}
+.SideBar .SectionS1{
+    width: 100%;
+    height: 30%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  
+}
+.SideBar .Outside{
+    width: 100%;
+    display: flex;
+    justify-content: end;
+    height: 15%;
+   
+}
+.SideBar .Outside .Inside{
+    width: 50px;
+    height: 100%;
+    background-color: rgb(252, 252, 252);
+    font-size: 20px;
+    text-align: center;
+    border-bottom-left-radius:15px ;
+}
+.SideBar .Outside .Inside:hover{
+    background-color: transparent;
+    border: 1px solid red;
+    font-size:22px ;
+}
+.SideBar .SectionS1 .InsideArticle{
+    width: 100%;
+    height: 85%;
+    display: flex;
+    padding-left: 10px;
+    padding-right: 10px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+ 
+}
+.SideBar .SectionS1 .InsideArticle img{
+      width: 30%;
+      height: 55%;
+      border-radius: 50%;
+}
+.SideBar .SectionS1 .InsideArticle p{
+    font-size: 30px; 
+    font-weight: bold;
+    color:black; 
+    letter-spacing: 1px;
+    text-decoration: underline;
+    margin-right: 20px;
+}
+.SideBar .SectionS2{
+    width: 100%;
+    height: 70%;
+    display: flex;
+    justify-content: center;
+}
+.SideBar .SectionS2 ul{
+    width: 80%;
+    height: 100%;
+    border-radius: 10px;
+}
+.SideBar .SectionS2 ul li{
+    list-style: none;
+    margin-bottom: 10px;
+    font-size: 30px; 
+    font-weight: lighter;
+    color:black; 
+    letter-spacing: 1px;
+    border-bottom: 2px solid silver;
+    gap: 2px;
+
+
+}
+
+.SideBar .SectionS2 ul li:hover{
+    
+    color:white; 
+    
+
+
+}
+
+
+.SideBar .SectionS2 ul li:hover{
+    scale: 1.1;
+   
+}

@@ -9,6 +9,7 @@ const Budget2 = ({ notifications }) => {
     }
     return text;
   };
+  const displayedItems = notifications.slice(0, 5);
   return (
     <div className="grid-two-item grid-common grid-c4">
       <div className="grid-c-title">
@@ -23,7 +24,7 @@ const Budget2 = ({ notifications }) => {
       </div>
       <div className="grid-c4-content bg-jet">
         <div className="grid-items">
-          {notifications.map((notification, index) => (
+          {displayedItems.map((notification, index) => (
             <div className="grid-item" key={index}>
               <div className="grid-item-l">
                 <div className="icon">
