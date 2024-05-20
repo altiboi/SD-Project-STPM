@@ -5,7 +5,7 @@ const PaymentModal = ({ closeModal, onSubmit, defaultValue }) => {
   const [formState, setFormState] = useState(
     defaultValue || {
       fine_amount: "",
-      fine_description: ""
+      fine_reason: ""
     }
   );
 
@@ -16,7 +16,7 @@ const PaymentModal = ({ closeModal, onSubmit, defaultValue }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    onSubmit(formState);
+    onSubmit(formState.fine_id);
 
     closeModal();
   };
@@ -44,11 +44,10 @@ const PaymentModal = ({ closeModal, onSubmit, defaultValue }) => {
             <textarea
               name="fine_description"
               onChange={handleChange}
-              value={formState.fine_description}
+              value={formState.fine_reason}
               disabled="disabled"
             />
           </div>
-
           <button type="submit" className="btn" onClick={handleSubmit}>
             Pay
           </button>

@@ -42,7 +42,7 @@ const Fines = ({ rows, deleteRow, editRow }) => {
                     onClick={() => editRow(idx)}
                   />
                   {"Pay now"}
-                </td> : <td>{"Paid"}</td> }
+                </td> : <td>{}</td> }
               </tr>
             );
           })}

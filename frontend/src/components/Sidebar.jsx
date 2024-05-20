@@ -9,21 +9,23 @@ import { useAuth0 } from "@auth0/auth0-react";
 
 let navigationLinks;
 
-const Sidebar = ({ dashboardActiveLinkIdx, setDashboardActiveLinkIdx, userData }) => {
+const Sidebar = ({ dashboardActiveLinkIdx, setDashboardActiveLinkIdx, userData, notificationsCount }) => {
   
   userData.role == "Resident" ? navigationLinks = [
     { id: 1, title: "Home", image: iconsImgs.home },
     { id: 2, title: "Tickets", image: iconsImgs.budget },
     { id: 3, title: "Fines", image: iconsImgs.bills },
-    { id: 4, title: "Reports", image: iconsImgs.report },
-    { id: 5, title: "Account", image: iconsImgs.user },
-    { id: 6, title: "Settings", image: iconsImgs.gears },
+    { id: 4, title: "Notifications", image: iconsImgs.bell },
+    { id: 5, title: "Reports", image: iconsImgs.report },
+    { id: 6, title: "Account", image: iconsImgs.user },
+    { id: 7, title: "Settings", image: iconsImgs.gears },
   ] :  navigationLinks = [
     { id: 1, title: "Home", image: iconsImgs.home },
     { id: 2, title: "Tickets", image: iconsImgs.budget },
-    { id: 3, title: "Reports", image: iconsImgs.report },
-    { id: 4, title: "Account", image: iconsImgs.user },
-    { id: 5, title: "Settings", image: iconsImgs.gears },
+    { id: 3, title: "Notifications", image: iconsImgs.bell },
+    { id: 4, title: "Reports", image: iconsImgs.report },
+    { id: 5, title: "Account", image: iconsImgs.user },
+    { id: 6, title: "Settings", image: iconsImgs.gears },
   ];
 
   const [activeLinkIdx, setActiveLinkIdx] = useState(0);
@@ -67,11 +69,17 @@ const Sidebar = ({ dashboardActiveLinkIdx, setDashboardActiveLinkIdx, userData }
                   setDashboardActiveLinkIdx(index);
                 }}
               >
+                <div className="icon">
+
                 <img
                   src={navigationLink.image}
                   alt="nav-image"
                   className="nav-link-icon"
                 />
+                  {navigationLink.title === "Notifications" && notificationsCount > 0 && (
+                    <div className="counter">{notificationsCount}</div>
+                  )}
+                </div>
                 <span className="nav-link-text">{navigationLink.title}</span>
               </a>
             </li>

@@ -2,10 +2,10 @@ import "./Dashboard.css";
 import Sidebar from "./components/Sidebar";
 import Content from "./components/Content";
 import Profile from "./pages/Login/Profile";
-import Table from "./pages/Residents/Table";
-import Modal from "./pages/Residents/Modal";
-import Table1 from "./pages/Staff/Table1"
-import Modal1 from "./pages/Staff/Modal1"
+import Table from "./pages/Staff/Table";
+import Modal from "./pages/Staff/Modal";
+import Table1 from "./pages/Residents/Table1"
+import Modal1 from "./pages/Residents/Modal1"
 import { useAuth0 } from "@auth0/auth0-react";
 import { useRef, useState, useEffect } from "react";
 import Loading from "./components/Loading";
@@ -14,6 +14,8 @@ import TicketReport from "./components/TicketReport";
 import FineReport from "./components/FineReport";
 import Fines from "./pages/Residents/Fines";
 import PaymentModal from "./pages/Residents/PaymentModal";
+import Notifications from "./components/Notifications";
+import NotificationsModal from "./components/NotificationsModal";
 
 function Dashboard() {
   const navRef = useRef();
@@ -26,7 +28,8 @@ function Dashboard() {
     phoneNumber: null,
     propName: null,
     name: null,
-    unitID: null
+    unitID: null,
+    lastLogin: null
   });
 
   useEffect(() => {
@@ -47,7 +50,8 @@ function Dashboard() {
               phoneNumber: data.Phone,
               propName: data.PropertyName,
               name: data.Name,
-              unitID: data.UnitID
+              unitID: data.UnitID,
+              lastLogin: data.lastLogin
             });
           } else {
             console.error('Failed to fetch user:', response.status, response.statusText);
@@ -68,12 +72,15 @@ function Dashboard() {
   console.log(dashboardActiveLinkIdx);
 
   const [modalOpen, setModalOpen] = useState(false);
-  const [tickets, setTickets] = useState(null);
-  const [fines, setFines] = useState(null);
+  const [tickets, setTickets] = useState([]);
+  const [fines, setFines] = useState([]);
+  const [notifications, setNotifications] = useState([]);
+  const [notificationsCount, setNotificationsCount] = useState(0);
 
   useEffect(() => {
     if(userData.user_id){
       fetchTickets();
+      fetchNotifications();
       if(userData.role === "Resident"){
         fetchFines();
       }
@@ -141,6 +148,36 @@ function Dashboard() {
     }
 };
 
+const fetchNotifications = async () => {
+  try {
+      const endpoint = userData.role === 'Staff' 
+          ? "https://blocbuddyapi.azurewebsites.net/api/getStaffNotifications" 
+          : "https://blocbuddyapi.azurewebsites.net/api/getResidentNotifications";
+      
+      const response = await fetch(endpoint, {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ user_id: userData.user_id })
+      });
+
+      if (response.ok) {
+          const data = await response.json();
+          setNotifications(data);
+      } else if (response.status === 404) {
+          setNotifications([]);
+      } else {
+          console.error("Failed to fetch notifications:", response.status, response.statusText);
+      }
+  } catch (error) {
+      console.error("Error fetching notifications:", error);
+  } finally {
+      // Set the ready state to true or handle the final state as needed
+      setIsReady(true);
+  }
+};
+
 
   const [rowToEdit, setRowToEdit] = useState(null);
 
@@ -150,7 +187,6 @@ function Dashboard() {
 
   const handleEditRow = (idx) => {
     setRowToEdit(idx);
-
     setModalOpen(true);
   };
 
@@ -174,19 +210,52 @@ function Dashboard() {
         );
   };
 
-  const addFines = (newRowItem) => {
-    // const currentDate = new Date();
-    // const formattedDate = `${String(currentDate.getDate()).padStart(2, '0')}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${currentDate.getFullYear()}`;
-    
-    // const newRow = {
-    //   ...newRowItem,
-    //   dateOpened: formattedDate,
-    // };
-    
+  let payFine = async (fine_id) => {
+    try {
+      const response = await fetch("https://blocbuddyapi.azurewebsites.net/api/payFine", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          fine_id: fine_id,
+          resident_id: userData.user_id
+        })
+      });
+  
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Fine status updated successfully:", data);
+        fetchFines();
+        // You can add any additional logic here, such as updating the UI
+      } else {
+        console.error("Failed to update fine status:", response.status, response.statusText);
+      }
+    } catch (error) {
+      console.error("Error updating fine status:", error);
+    }
+  };
+  
+
+  useEffect(() => {
+    let unseenCount = 0;
+    const lastLog = new Date(userData.lastLogin);
+    notifications.forEach(notification => {
+      const notiDate = new Date(notification.rawSendDate);
+      if (notiDate > lastLog) {
+        unseenCount++;
+      }
+    });
+    setNotificationsCount(unseenCount);
+  }, [notifications]);
+
+  const handleViewN = (newRow) => {
+    newRow.status = "seen";
+    console.log(newRow);
     rowToEdit === null
-      ? setFines([newRow, ...fines])
-      : setFines(
-          fines.map((currRow, idx) => {
+      ? setNotifications([...notifications, newRow])
+      : setNotifications(
+          notifications.map((currRow, idx) => {
             if (idx !== rowToEdit) return currRow;
 
             return newRow;
@@ -196,35 +265,65 @@ function Dashboard() {
 
   let ContentComponent;
 
-  if(isReady && tickets != null && userData != null){
-    switch (dashboardActiveLinkIdx) {
-      case 0:
-        ContentComponent = () => <Content budgetItems={tickets} />;
-        break;
-      case 1:
-        ContentComponent = userData.role == "Resident" ? Table : Table1;
-        break;
-      case 2:
-        ContentComponent = () => <Fines rows={fines}/>;
-        break;
-      case 3:
-        ContentComponent = () => (
-          <div className="report-container">
-            <TicketReport tickets={tickets} />
-            <FineReport fines={fines} />
-            <TicketReport tickets={tickets} />
-          </div>
-        );
-        break;
-      case 4:
-        ContentComponent = () => <Profile userData={userData}/>;
-        break;
-      default:
-        ContentComponent = () => <Content budgetItems={tickets} />;
+  if(isReady && userData != null){
+    if(userData.role === "Resident"){
+      switch (dashboardActiveLinkIdx) {
+        case 0:
+          ContentComponent = () => <Content budgetItems={tickets} notifications={notifications} fines={fines}/>;
+          break;
+        case 1:
+          ContentComponent = () => <Table1 rows={tickets}/>;
+          break;
+        case 2:
+          ContentComponent = () => <Fines rows={fines} editRow={handleEditRow}/>;
+          break;
+        case 3:
+          ContentComponent = () => <Notifications rows={notifications} editRow={handleEditRow}/>;
+          break;
+        case 4:
+          ContentComponent = () => (
+            <div className="report-container">
+              <TicketReport tickets={tickets} />
+              <FineReport fines={fines} />
+              <TicketReport tickets={tickets} />
+            </div>
+          );
+          break;
+        case 5:
+          ContentComponent = () => <Profile userData={userData}/>;
+          break;
+        default:
+          ContentComponent = () => <Content budgetItems={tickets} notifications={notifications} fines={fines}/>;
+      }
+    } else if(userData.role === "Staff"){
+      switch (dashboardActiveLinkIdx) {
+        case 0:
+          ContentComponent = () => <Content budgetItems={tickets} notifications={notifications} fines={fines}/>;
+          break;
+        case 1:
+          ContentComponent = () => <Table rows={tickets} />;
+          break;
+        case 2:
+          ContentComponent = () => <Notifications rows={notifications} editRow={handleEditRow}/>;
+          break;
+        case 3:
+          ContentComponent = () => (
+            <div className="report-container">
+              <TicketReport tickets={tickets} />
+              <TicketReport tickets={tickets} />
+            </div>
+          );
+          break;
+        case 4:
+          ContentComponent = () => <Profile userData={userData}/>;
+          break;
+        default:
+          ContentComponent = () => <Content budgetItems={tickets} notifications={notifications} fines={fines}/>;
+      }
     }
   }
 
-  if (!isReady || tickets == null || fines == null) {
+  if (!isReady) {
     return <Loading />;
   }
 
@@ -233,45 +332,68 @@ function Dashboard() {
       <Sidebar
         setDashboardActiveLinkIdx={setDashboardActiveLinkIdx}
         dashboardActiveLinkIdx={dashboardActiveLinkIdx}
-        userData = {userData}
+        userData={userData}
+        notificationsCount={notificationsCount}
       />
 
-{dashboardActiveLinkIdx === 1 || dashboardActiveLinkIdx === 4 ? (
+      {dashboardActiveLinkIdx === 1 || dashboardActiveLinkIdx === 2 ? (
         <div className="App">
           <ContentComponent
-            rows={dashboardActiveLinkIdx === 1 ? tickets : fines}
-            deleteRow={handleDeleteRow}
-            editRow={handleEditRow}
-          />
+          deleteRow={handleDeleteRow} 
+          editRow={handleEditRow}/>
 
-          {dashboardActiveLinkIdx === 2 ? (
-            console.log("skipped")
-          ) : (
+          {dashboardActiveLinkIdx === 1 && userData.role === "Resident" &&
+          (
             <button className="btn" onClick={() => setModalOpen(true)}>
               Add
             </button>
           )}
 
-          {dashboardActiveLinkIdx === 1 && modalOpen && (
+          {dashboardActiveLinkIdx === 1 && userData.role === "Staff" && modalOpen && (
             <Modal
               closeModal={() => {
                 setModalOpen(false);
                 setRowToEdit(null);
               }}
-              onSubmit={addTickets}
-              defaultValue={rowToEdit !== null && rows[rowToEdit]}
+              onSubmit={fetchTickets}
+              defaultValue={rowToEdit !== null && tickets[rowToEdit]}
               userData={userData}
             />
           )}
 
-          {dashboardActiveLinkIdx === 4 && modalOpen && (
+          {dashboardActiveLinkIdx === 1 && userData.role === "Resident" && modalOpen && (
+            <Modal1
+              closeModal={() => {
+                setModalOpen(false);
+                setRowToEdit(null);
+              }}
+              onSubmit={fetchTickets}
+              defaultValue={rowToEdit !== null && tickets[rowToEdit]}
+              userData={userData}
+            />
+          )}
+
+          {dashboardActiveLinkIdx === 2 && modalOpen && (
             <PaymentModal
               closeModal={() => {
                 setModalOpen(false);
                 setRowToEdit(null);
               }}
-              onSubmit={addFines}
+              onSubmit={payFine}
               defaultValue={rowToEdit !== null && fines[rowToEdit]}
+            />
+          )}
+
+          {((dashboardActiveLinkIdx === 2 && userData.role === "Staff") || 
+          (dashboardActiveLinkIdx === 3 && userData.role === "Resident")) 
+          && modalOpen && (
+            <NotificationsModal
+              closeModal={() => {
+                setModalOpen(false);
+                setRowToEdit(null);
+              }}
+              onSubmit={handleViewN}
+              defaultValue={rowToEdit !== null && notifications[rowToEdit]}
             />
           )}
         </div>
