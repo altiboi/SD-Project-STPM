@@ -67,25 +67,6 @@ function Dashboard() {
 
   //popup useStates
 
-  const notificationPopRef = useRef(null);
-
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (
-        notificationPopRef.current &&
-        !notificationPopRef.current.contains(event.target)
-      ) {
-        setNotificationPop(false);
-      }
-    };
-
-    document.addEventListener("click", handleClickOutside);
-
-    return () => {
-      document.removeEventListener("click", handleClickOutside);
-    };
-  }, []);
-
   //Admin states
 
   const [searchText, setSearchText] = useState(null);
@@ -1032,7 +1013,6 @@ function Dashboard() {
           <NotificationPop
             isOpen={notificationPop}
             handleCardClick={handleCardClick}
-            ref={notificationPopRef}
           />
           <NotificationStructure
             isOpen={notificationCreate}

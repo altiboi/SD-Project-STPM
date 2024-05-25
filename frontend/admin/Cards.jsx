@@ -62,7 +62,6 @@ function CardsTask({ handleCardClick, handleTicketClick, openSignUp }) {
           <h4>Add Person</h4>
           <i className="fa-solid fa-ticket"></i>
         </article>
-        <total />
       </section>
     </article>
   );
