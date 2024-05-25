@@ -1,29 +1,23 @@
-
 import { useState } from 'react';
-import Residents, { Value } from './Residents';
-import Staff, { StaffValue } from './Staff';
+import Residents from './Residents';
+import Staff from './Staff';
 import './App.css';
-import  total ,  {TicketsPop}  from './Tickets';
+import {TicketsPop}  from './Tickets';
 import Unsolved from './Unsolved';
 import InProgress from './InProgress';
 import Solved from './Solved';
 import TheTicket from './TheTicket';
 import Search from './search';
-import pp from './pp.png'
-import business from './images/bus.png'
 import StaffAssign from './StuffAssing'
 import TaskAssigned from './TaskAssigned';
 import SideBar from './SideBar';
 import SignUpForm from './SignUpForm';
-import Cards from './Cards';
 import CardsHome,{CardsTask} from './Cards';
 import FinesMembers from './FinesMembers';
 import FinePop  from './FinePop';
 import UnsettledFine from './UnsettledFine';
-import report from './report';
 import SettledFine from './SettledFines';
 import CreateFine from './CreateFine';
-import {NumberOfFined}from './FinesMembers';
 import NotificationPop from './notificationPop';
 import AllNotification from './AllNotification';
 import NotificationStructure from './NotificationStructure';
@@ -68,7 +62,6 @@ function App() {
     const openSignUp = () => {
         setIsSignUpOpen(true);
     };
-
     const closeSignUp = () => {
         setIsSignUpOpen(false);
     };
@@ -271,7 +264,6 @@ function App() {
 
 
     };
-
     const OpenSideBar=()=>{
         setSideOpen(true);
         setMain(true)

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import './NotificationStructure.css';
-import e from './e.png';
+
 
 function NotificationStructure({ isOpen, choosen, handleCardClick, close }) {
     const [image, setImage] = useState(null);
@@ -81,7 +81,7 @@ function NotificationStructure({ isOpen, choosen, handleCardClick, close }) {
                 </section>
             </section>
             <section className="Section3">
-                <section className="Body">
+                <section className="Bodyy">
                     <input type="text" placeholder="Write the message here...." className="Body_text" value={message} onChange={(e) => setMessage(e.target.value)} />
                 </section>
                 <section className="img">

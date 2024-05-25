@@ -9,7 +9,6 @@ import Modal1 from "./pages/Residents/Modal1"
 import { useAuth0 } from "@auth0/auth0-react";
 import { useRef, useState, useEffect } from "react";
 import Loading from "./components/Loading";
-import { bufferToImage } from "face-api.js";
 import TicketReport from "./components/TicketReport";
 import FineReport from "./components/FineReport";
 import Fines from "./pages/Residents/Fines";
@@ -352,6 +351,7 @@ const fetchNotifications = async () => {
 
         <div className="App">
           <ContentComponent/>
+
 
           {dashboardActiveLinkIdx === 1 && userData.role === "Resident" &&
           (

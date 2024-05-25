@@ -1,8 +1,5 @@
 import React, { useState } from 'react';
 import './FinePop.css';
-import {UnsolvedValue,number1} from './Unsolved';
-import { InProgressValue,number2 } from './InProgress';
-import { SolvedValue ,number3} from './Solved';
 import OwedAmout ,{Settled_Fines_number,Unsettled_Fines_number}from './PesornalFineInfor';
 
 function FinePop({ isFineTicketOpen , handleCardClick ,personName }) {
