@@ -1,167 +1,157 @@
 .Ticketss {
-    top: 200px;
-    left: 320px;
-    position: absolute;
-    margin-left: 40px;
-    width: 810px; 
-    height: 150px;
-    display: flex;
-    scale:0.001;
-    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2),
-                -4px -4px 4px rgba(0, 0, 0, 0.2);
-    flex-direction: row;
-    justify-content: center;
-    transition: 0.5s;
-    align-items: center; 
-    visibility: hidden;
-    
-  }
-  .Ticketss_open{
-    top: 250px;
-    left: 350px;
-    position: absolute;
-    margin-left: 40px;
-    width: 810px; 
-    height: 200px;
-    display: flex;
-    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2),
-                -4px -4px 4px rgba(0, 0, 0, 0.2);
-    flex-direction: column;
-    justify-content: center;
-    align-items: center; 
-    transition: 1s;
-    scale: 1;
-    visibility: visible;
-  
-  }
-  
-  .popTickets {
-    position: relative;
-    margin: 10px; 
-    border: 5px solid black;
-    background-color: transparent;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2),
-               -4px -4px 4px rgba(0, 0, 0, 0.2);
-    width: 50%; 
-    height: 60%; 
-    letter-spacing: 0.1em;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    transition: 0.5s;
-    flex: 1; 
-  }
-  
-  .popTickets::before,
-  .popTickets::after {
-    content: ' ';
-    position: absolute;
-    width: 20%;
-    height: 5px;
-    background-color: white;
-    transition: 0.5s;
-  }
-  
-  .popTickets::before {
-    top: -5px;
-    left: 80%;
-  }
-  
-  .popTickets::after {
-    bottom: -5px;
-    left: 20%;
-  }
-  
-  .popTickets:hover::before {
-    left: 20%;
-  }
-  
-  .popTickets:hover::after {
-    left: 80%;
-  }
-  
-  .popTickets:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 10px var(--clr);
-    letter-spacing: 0.15em;
-  }
-  
-  .popTickets  section {
-    width: 100%;
-    height: 25%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-bottom: 2px solid black;
-    padding-top: 40px;
-  }
-  
-  .popTickets h5 {
-    position: absolute;
-    bottom: 0;
-    margin-top: 5px;
-    margin-bottom: 10px;
-    font-size: 15px;
-    text-transform: uppercase;
-    transition: 0.5s;
-  }
-  
-  .popTickets p {
-    margin-top: -5px;
-    color: black;
-    font-size: 30px;
-    font-weight: bolder;
-    text-shadow: 4px 4px 1px gray;
-  }
-  .Ticketss_open .sectio1{
-    width: 95%; 
-    height: 70%;
-    display: flex;
-    margin-top: -15px;
-    justify-content: center;
-    align-items: center; 
-  }
-  .Ticketss_open .popTickets1{
+  top: 200px;
+  left: 320px;
+  position: absolute;
+  margin-left: 40px;
+  width: 810px;
+  height: 150px;
+  display: flex;
+  scale: 0.001;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2), -4px -4px 4px rgba(0, 0, 0, 0.2);
+  flex-direction: row;
+  justify-content: center;
+  transition: 0.5s;
+  align-items: center;
+  visibility: hidden;
+}
+.Ticketss_open {
+  top: 45%;
+  left: 55%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+  margin-left: 40px;
+  width: 50%;
+  height: 30%;
+  display: flex;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2), -4px -4px 4px rgba(0, 0, 0, 0.2);
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: 1s;
+  scale: 1;
+  visibility: visible;
+}
 
-    border: 5px solid black;
-    background-color: transparent;
-    width: 93%; 
-    height: 30%; 
-    letter-spacing: 0.1em;
-    margin-top: -10px;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
+.popTickets {
+  position: relative;
+  margin: 10px;
+  border: 5px solid black;
+  background-color: transparent;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), -4px -4px 4px rgba(0, 0, 0, 0.2);
+  width: 50%;
+  height: 60%;
+  letter-spacing: 0.1em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: 0.5s;
+  flex: 1;
+}
 
-  }
-  .popTickets1 p {
- 
-    text-align: end;
-    color: black;
-    font-size: 30px;
-    font-weight: bolder;
-    text-shadow: 4px 4px 1px gray;
-  }
-  .popTickets1 h5 {
-    font-size: 15 px;
-    text-transform: uppercase;
-    transition: 0.5s;
+.popTickets::before,
+.popTickets::after {
+  content: " ";
+  position: absolute;
+  width: 20%;
+  height: 5px;
+  background-color: white;
+  transition: 0.5s;
+}
 
-    color: black;
-    font-size: 30px;
-    font-weight: bolder;
-    border-bottom: -20px;
-  }
-  .popTickets1 section {
-    width: 50%;
-    height: 30%;
-    display: flex;
-    text-align: start;
-    justify-content: center;
-    align-items: center;
-  
-  }
-    
-  
+.popTickets::before {
+  top: -5px;
+  left: 80%;
+}
+
+.popTickets::after {
+  bottom: -5px;
+  left: 20%;
+}
+
+.popTickets:hover::before {
+  left: 20%;
+}
+
+.popTickets:hover::after {
+  left: 80%;
+}
+
+.popTickets:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 10px var(--clr);
+  letter-spacing: 0.15em;
+}
+
+.popTickets section {
+  width: 100%;
+  height: 25%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 2px solid black;
+  padding-top: 40px;
+}
+
+.popTickets h5 {
+  position: absolute;
+  bottom: 0;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  font-size: 15px;
+  text-transform: uppercase;
+  transition: 0.5s;
+}
+
+.popTickets p {
+  margin-top: -5px;
+  color: black;
+  font-size: 30px;
+  font-weight: bolder;
+  text-shadow: 4px 4px 1px gray;
+}
+.Ticketss_open .sectio1 {
+  width: 95%;
+  height: 70%;
+  display: flex;
+  margin-top: -15px;
+  justify-content: center;
+  align-items: center;
+}
+.Ticketss_open .popTickets1 {
+  border: 5px solid black;
+  background-color: transparent;
+  width: 93%;
+  height: 30%;
+  letter-spacing: 0.1em;
+  margin-top: -10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.popTickets1 p {
+  text-align: end;
+  color: black;
+  font-size: 30px;
+  font-weight: bolder;
+  text-shadow: 4px 4px 1px gray;
+}
+.popTickets1 h5 {
+  font-size: 10 px;
+  text-transform: uppercase;
+  transition: 0.5s;
+
+  color: black;
+  font-size: 30px;
+  font-weight: bolder;
+  border-bottom: -20px;
+}
+.popTickets1 section {
+  width: 50%;
+  height: 30%;
+  display: flex;
+  text-align: start;
+  justify-content: center;
+  align-items: center;
+}
