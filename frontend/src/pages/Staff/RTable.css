@@ -22,8 +22,6 @@
 .table thead {
   background-color: rgb(12, 20, 44);
   color: #222;
-  position: sticky;
-  z-index: 1;
 }
 
 .table th,
