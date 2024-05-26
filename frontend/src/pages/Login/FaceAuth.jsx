@@ -1,9 +1,11 @@
-import React, { useEffect, useRef } from 'react';
-import * as faceapi from 'face-api.js';
-import './FaceAuth.css'
+import React, { useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import * as faceapi from "face-api.js";
+import "./FaceAuth.css";
 
 function FaceRecognition() {
   const videoRef = useRef(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function loadModels() {
@@ -13,11 +15,11 @@ function FaceRecognition() {
           faceapi.nets.faceLandmark68Net.loadFromUri("/models"),
           faceapi.nets.faceRecognitionNet.loadFromUri("/models"),
         ]);
-        console.log('Models loaded successfully');
+        console.log("Models loaded successfully");
 
         startWebcam();
       } catch (error) {
-        console.error('Error loading models:', error);
+        console.error("Error loading models:", error);
       }
     }
 
@@ -26,19 +28,25 @@ function FaceRecognition() {
 
   async function startWebcam() {
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: true,
+        audio: false,
+      });
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
-        videoRef.current.addEventListener('loadedmetadata', startFaceRecognition);
-        console.log('Webcam started successfully');
+        videoRef.current.addEventListener(
+          "loadedmetadata",
+          startFaceRecognition
+        );
+        console.log("Webcam started successfully");
       }
     } catch (error) {
-      console.error('Error starting webcam:', error);
+      console.error("Error starting webcam:", error);
     }
   }
 
   async function getLabeledFaceDescriptions() {
-    const labels = ["Nkosinathi","Kat","Sims"];
+    const labels = ["Nkosinathi", "Kat", "Sims"];
     return Promise.all(
       labels.map(async (label) => {
         const descriptions = [];
@@ -63,19 +71,28 @@ function FaceRecognition() {
       const video = videoRef.current;
 
       const canvas = faceapi.createCanvasFromMedia(video);
-      canvas.classList.add('appCanvas'); // Add the class to center the canvas
+      canvas.classList.add("appCanvas"); // Add the class to center the canvas
       document.body.append(canvas);
 
-      const displaySize = { width: video.videoWidth, height: video.videoHeight };
+      const displaySize = {
+        width: video.videoWidth,
+        height: video.videoHeight,
+      };
       faceapi.matchDimensions(canvas, displaySize);
 
       setInterval(async () => {
         const detections = await faceapi
-          .detectAllFaces(video, new faceapi.SsdMobilenetv1Options({ minConfidence: 0.8 }))
+          .detectAllFaces(
+            video,
+            new faceapi.SsdMobilenetv1Options({ minConfidence: 0.8 })
+          )
           .withFaceLandmarks()
           .withFaceDescriptors();
 
-        const resizedDetections = faceapi.resizeResults(detections, displaySize);
+        const resizedDetections = faceapi.resizeResults(
+          detections,
+          displaySize
+        );
 
         const context = canvas.getContext("2d");
         context.clearRect(0, 0, canvas.width, canvas.height);
@@ -90,10 +107,15 @@ function FaceRecognition() {
             label: result,
           });
           drawBox.draw(canvas);
+
+          if (result._distance < 0.5) {
+            // Redirect to dashboard if the user is authenticated
+            navigate("/dashboard");
+          }
         });
       }, 100);
     } catch (error) {
-      console.error('Error starting face recognition:', error);
+      console.error("Error starting face recognition:", error);
     }
   }
 

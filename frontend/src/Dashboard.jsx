@@ -23,6 +23,7 @@ import Staff from "../admin/Staff";
 import { NumberOfFined } from "../admin/FinesMembers";
 import CardsHome, { CardsTask } from "../admin/Cards";
 import RTable from "./pages/Staff/RTable";
+import LoginPage from "./components/NewLoginPage";
 
 // Admin Imports
 
@@ -756,7 +757,10 @@ function Dashboard() {
           );
           break;
         case 4:
-          ContentComponent = () => <Profile userData={userData} />;
+          ContentComponent = () => (
+            //
+            <LoginPage></LoginPage>
+          );
           break;
         default:
           ContentComponent = () => (

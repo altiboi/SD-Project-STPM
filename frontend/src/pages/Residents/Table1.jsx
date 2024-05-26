@@ -32,7 +32,7 @@ const Table = ({ rows, deleteRow, editRow }) => {
                     {statusText}
                   </span>
                 </td>
-                <td>{row.feedback}</td>
+                <td>{row.staff_feedback}</td>
                 <td className="pay">
                   <GrFormView
                     className="edit-btn"
