@@ -232,31 +232,26 @@ function Dashboard() {
 
     setIsAssignd(true);
     istaskAssigned(true);
-    setMain(true);
   };
   const handleNotificationClick = (name, NamePerson) => {
     if (name == "MyN") {
       setNotificationId(NamePerson);
       setMyNotification(true);
-      setMain(true);
     }
   };
   const handleTicketClick = (name, NamePerson) => {
     if (name === "tickets") {
       setTicketsPopOpen(true);
       setSeachOpen(false);
-      setMain(true);
     } else {
       setSeachOpen(false);
       setFineTicketOpen(true);
-      setMain(true);
     }
     setFineMember(NamePerson);
   };
   const handleTicket = (name) => {
     setName(name);
     setTicketOpen(true);
-    setMain(true);
     const currentTime = new Date();
     const formattedTime = currentTime.toLocaleTimeString();
     setCurrentTime(currentTime);
@@ -290,10 +285,8 @@ function Dashboard() {
       setMain(false);
       if (cardType === "Unsettled") {
         setUnsettledPop(true);
-        setMain(true);
       } else {
         setSettledPop(true);
-        setMain(true);
       }
     }
     if (cardType === "Assigned") {
@@ -313,7 +306,7 @@ function Dashboard() {
       setSearchText(null);
 
       setActiveCard(cardType);
-      setMain(true);
+      //setMain(true);
     }
 
     if (cardType === "History") {
@@ -323,7 +316,6 @@ function Dashboard() {
     if (cardType === "cNotification") {
       setNotificationCreate(true);
       setNotificationPop(false);
-      setMain(true);
     }
     if (cardType === "dropDown") {
       setDropDownmenu(true);
@@ -364,7 +356,6 @@ function Dashboard() {
     if (name == "creatFine") {
       setCreateFinePop(true);
       setUnsettledPop(false);
-      setMain(true);
     }
   };
   const ViewActivits = (name) => {
@@ -563,6 +554,18 @@ function Dashboard() {
   const handleEditRow = (idx) => {
     setRowToEdit(idx);
     setTicketModalOpen(true);
+  };
+
+  const handleClosePop = () => {
+    setNotificationPop(false);
+  };
+
+  const handleNotificationCreatePopClose = () => {
+    setNotificationCreate(false);
+  };
+
+  const handleCloseTickets = () => {
+    setTicketsPopOpen(false);
   };
 
   const handlePaymentModal = (idx) => {
@@ -874,31 +877,11 @@ function Dashboard() {
               {dashboardActiveLinkIdx === 0 && (
                 <>
                   <CardsHome handleCardClick={handleCardClick}></CardsHome>
-                  <RTable filterLetters={searchText} activeCard={activeCard} />
-
-                  <section id="viewComp" className="viewComp">
-                    {activeCard === "Residents"}
-                    {activeCard === "Staff"}
-                    {activeCard === "Unsolved" && (
-                      <Unsolved handleTicket={handleTicket} />
-                    )}
-                    {activeCard === "InProgress" && (
-                      <InProgress handleTicket={handleTicket} />
-                    )}
-                    {activeCard === "Solved" && (
-                      <Solved handleTicket={handleTicket} />
-                    )}
-                    {activeCard === "Assigned" && (
-                      <StaffAssign TaskAssignedTo={TaskAssignedTo} />
-                    )}
-                    {activeCard == "History"}
-                    {activeCard === "Fines" && (
-                      <FinesMembers
-                        filterLetters={searchText}
-                        handleTicketClick={handleTicketClick}
-                      />
-                    )}
-                  </section>
+                  <RTable
+                    filterLetters={searchText}
+                    activeCard={activeCard}
+                    handleNotificationClick={handleNotificationClick}
+                  />
                 </>
               )}
 
@@ -909,41 +892,13 @@ function Dashboard() {
                     handleCardClick={handleCardClick}
                   ></CardsTask>
 
-                  <article id="viewBox" className="viewBox">
-                    <section id="header" className="header">
-                      {console.log(activeCard)}
-                      {activeCard === "Residents" && <ResidentsHeader />}
-                      {activeCard === "Staff" && <StaffHeader />}
-                      {activeCard === "Unsolved" && <UnsolvedHeader />}
-                      {activeCard === "InProgress" && <InProgressHeader />}
-                      {activeCard === "Solved" && <SolvedHeader />}
-                      {activeCard === "Assigned" && <StaffAssingHeader />}
-                      {activeCard === "Fines" && <ResidentsHeader />}
-                    </section>
-                    <section id="viewComp" className="viewComp">
-                      {activeCard === "Residents" && <RTable />}
-                      {activeCard === "Staff" && <Staff />}
-                      {activeCard === "Unsolved" && (
-                        <Unsolved handleTicket={handleTicket} />
-                      )}
-                      {activeCard === "InProgress" && (
-                        <InProgress handleTicket={handleTicket} />
-                      )}
-                      {activeCard === "Solved" && (
-                        <Solved handleTicket={handleTicket} />
-                      )}
-                      {activeCard === "Assigned" && (
-                        <StaffAssign TaskAssignedTo={TaskAssignedTo} />
-                      )}
-                      {activeCard == "History"}
-                      {activeCard === "Fines" && (
-                        <FinesMembers
-                          filterLetters={searchText}
-                          handleTicketClick={handleTicketClick}
-                        />
-                      )}
-                    </section>
-                  </article>
+                  <RTable
+                    filterLetters={searchText}
+                    activeCard={activeCard}
+                    handleNotificationClick={handleNotificationClick}
+                    handleTicket={handleTicket}
+                    handleTicketClick={handleTicketClick}
+                  />
                 </>
               )}
             </main>
@@ -951,6 +906,7 @@ function Dashboard() {
           <TicketsPop
             isOpen={ticketsPopOpen}
             handleCardClick={handleCardClick}
+            onClose={handleCloseTickets}
           />
           <TheTicket
             isClicked={TicketOpen}
@@ -996,6 +952,7 @@ function Dashboard() {
           <NotificationPop
             isOpen={notificationPop}
             handleCardClick={handleCardClick}
+            onClose={handleClosePop}
           />
           <NotificationStructure
             isOpen={notificationCreate}
