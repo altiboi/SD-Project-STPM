@@ -7,7 +7,7 @@ function TheTicket({isClicked,name,handleCardClick}) {
 
     return (
             <article id="pop" className={isClicked ? "pop1_open" : "pop1"} >
-             <TicketsInfor personName={name} ifAssignedClicked={handleCardClick} />
+             <TicketsInfor personName={name} handleCardClick={handleCardClick} />
             </article>
     
         

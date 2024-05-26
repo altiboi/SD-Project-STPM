@@ -358,7 +358,7 @@ function App() {
                         {activeCard==='Unsolved' && <Unsolved handleTicket={handleTicket}/>}
                         {activeCard==='InProgress' && <InProgress handleTicket={handleTicket}/>}
                         {activeCard==='Solved' && <Solved handleTicket={handleTicket}/>}
-                        {activeCard==='Assigned' && <StaffAssign TaskAssignedTo={TaskAssignedTo}/>}
+                        {activeCard==='Assigned' && <StaffAssign TaskAssignedTo={TaskAssignedTo} />}
                         {activeCard=='History'  && <AllNotification handleNotificationClick={handleNotificationClick}/>}
                         {activeCard==='Fines' && <FinesMembers filterLetters={searchText}  handleTicketClick={handleTicketClick}/>}
 
@@ -368,7 +368,7 @@ function App() {
             </main>
             <TicketsPop isOpen={ticketsPopOpen} handleCardClick={handleCardClick}/>
             <TheTicket isClicked={TicketOpen}  name={NamePerson} handleCardClick={ifAssignedClicked}/>
-            <TaskAssigned time={formattedTime } close={Close}  RequestedBy={NamePerson1} TaskName={title} AssignedTo={StaffName} isAssigned={isAssigned}/>
+            <TaskAssigned time={formattedTime } close={Close}  RequestedBy={NamePerson1} TaskName={title} AssignedTo={StaffName} isAssigned={isAssigned} />
             <SideBar isOpen={SideOpen} CloseSideBar={Close} ViewActivits={ViewActivits}/>
             <FinePop isFineTicketOpen={FineTicketOpen} personName={FineMember} handleCardClick={handleCardClick}/>
             <UnsettledFine personName={FineMember} isOpen={UnsettledPop} Close={Close} Open={Open}/>
