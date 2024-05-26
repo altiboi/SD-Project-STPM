@@ -6,7 +6,7 @@ function NotificationPop({ isOpen, handleCardClick, personName, onClose }) {
 
   const handleClickOutside = (event) => {
     if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
-      onClose();
+      onClose("Notification");
     }
   };
 

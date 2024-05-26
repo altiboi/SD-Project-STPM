@@ -12,6 +12,8 @@ const Table = ({
   handleNotificationClick,
   handleTicket,
   handleTicketClick,
+  selectedTicketId,
+  TaskAssignedTo
 }) => {
   const [residents, setResidents] = useState([]);
 
@@ -47,7 +49,11 @@ const Table = ({
           response = await fetch(
             "https://blocbuddyapi.azurewebsites.net/api/fetchFines?"
           );
-        }
+        } else if (activeCard === "Assigned") {
+        response = await fetch(
+          "https://showresidents.azurewebsites.net/api/ShowStaff_"
+        );
+      }
 
         if (response) {
           const data = await response.json();
@@ -78,6 +84,37 @@ const Table = ({
 
   const filteredResidents = filterResidents(residents, filterLetters);
   console.log("active card", activeCard);
+  const assignTask = async (staffId, ticketId) => {
+    try {
+        console.log("Selected Ticket ID:", ticketId); // Log to debug
+        console.log("Staff ID:", staffId); // Log to debug
+
+        const response = await fetch('https://blocbuddyapi.azurewebsites.net/api/Assign_task?', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ ticket_id: ticketId, staff_id: staffId }),
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to assign task');
+        }
+
+        const result = await response.json();
+        console.log(result.message);
+        TaskAssignedTo(staffId, ticketId);
+    } catch (error) {
+        console.error(error.message);
+    }
+};
+
+const truncateText = (text, maxLength) => {
+  if (text.length > maxLength) {
+    return text.substring(0, maxLength) + '...';
+  }
+  return text;
+};
 
   return (
     <>
@@ -151,47 +188,50 @@ const Table = ({
         </div>
       ) : activeCard === "Unsolved" ? (
         <div className="table-wrapper">
-          <table className="table">
-            <thead>
-              <tr>
-                <th>Name</th>
-
-                <th>Date</th>
-                <th className="expand">Subject</th>
-              </tr>
-            </thead>
-            <tbody>
-              {residents.map((row, idx) => (
-                <tr onClick={() => handleTicket(row.id)} key={idx}>
-                  <td>{row._id}</td>
-
-                  <td>{row.dateOpened}</td>
-                  <td>{row.ticket_subject}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+  <table className="table">
+    <thead>
+      <tr>
+        <th>Subject</th>
+        <th>Description</th>
+        <th className="expand">Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      {residents.map((row, idx) => {
+        const truncatedDescription = truncateText(row.ticket_description, 20);
+        return (
+          <tr onClick={() => handleTicket(row._id)} key={idx}>
+            <td>{row.ticket_subject}</td>
+            <td>{truncatedDescription}</td> {/* Use the truncated description here */}
+            <td>{row.dateOpened}</td>
+          </tr>
+        );
+      })}
+    </tbody>
+  </table>
+</div>
       ) : activeCard === "Solved" ? (
         <div className="table-wrapper">
           <table className="table">
             <thead>
               <tr>
-                <th>Name</th>
+                <th>Subject</th>
 
-                <th>Date</th>
-                <th className="expand">Subject</th>
+                <th>Description</th>
+                <th className="expand">Date</th>
               </tr>
             </thead>
             <tbody>
-              {residents.map((row, idx) => (
-                <tr onClick={() => handleTicket(person.id)} key={idx}>
-                  <td>{row._id}</td>
-
-                  <td>{row.dateOpened}</td>
-                  <td>{row.ticket_subject}</td>
-                </tr>
-              ))}
+            {residents.map((row, idx) => {
+        const truncatedDescription = truncateText(row.ticket_description, 20);
+        return (
+          <tr onClick={() => handleTicket(row._id)} key={idx}>
+            <td>{row.ticket_subject}</td>
+            <td>{truncatedDescription}</td> {/* Use the truncated description here */}
+            <td>{row.dateOpened}</td>
+          </tr>
+        );
+      })}
             </tbody>
           </table>
         </div>
@@ -200,21 +240,23 @@ const Table = ({
           <table className="table">
             <thead>
               <tr>
-                <th>Name</th>
+                <th>Subject</th>
 
-                <th>Date</th>
-                <th className="expand">Subject</th>
+                <th>Description</th>
+                <th className="expand">Date</th>
               </tr>
             </thead>
             <tbody>
-              {residents.map((row, idx) => (
-                <tr onClick={() => handleTicket(row.id)} key={idx}>
-                  <td>{row._id}</td>
-
-                  <td>{row.dateOpened}</td>
-                  <td>{row.ticket_subject}</td>
-                </tr>
-              ))}
+            {residents.map((row, idx) => {
+        const truncatedDescription = truncateText(row.ticket_description, 20);
+        return (
+          <tr onClick={() => handleTicket(row._id)} key={idx}>
+            <td>{row.ticket_subject}</td>
+            <td>{truncatedDescription}</td> 
+            <td>{row.dateOpened}</td>
+          </tr>
+        );
+      })}
             </tbody>
           </table>
         </div>
@@ -241,6 +283,32 @@ const Table = ({
 
                   <td>{}</td>
                   <td>{}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      ): activeCard === "Assigned" ? (
+        <div className="table-wrapper">
+          <table className="table">
+            <thead>
+              <tr>
+                <th>Name</th>
+
+                <th>Role</th>
+                <th className="expand">UnitID</th>
+              </tr>
+            </thead>
+            <tbody>
+              {residents.map((row, idx) => (
+                <tr
+                 onClick={() => assignTask(row._id, selectedTicketId)}
+                  key={idx}
+                >
+                  <td>{row.Name}</td>
+
+                  <td>{row.Role}</td>
+                  <td>{row.UnitID}</td>
                 </tr>
               ))}
             </tbody>

@@ -24,7 +24,11 @@ const Budget2 = ({ notifications }) => {
       </div>
       <div className="grid-c4-content bg-jet">
         <div className="grid-items">
-          {displayedItems.map((notification, index) => (
+        {notifications.length === 0 ? (
+            <div className="grid-item">
+              <p className="text text-silver-v1">No new notifications</p>
+            </div>
+          ) : (displayedItems.map((notification, index) => (
             <div className="grid-item" key={index}>
               <div className="grid-item-l">
                 <div className="icon">
@@ -39,7 +43,7 @@ const Budget2 = ({ notifications }) => {
                 <span className="text-silver-v1">{notification.sendDate}</span>
               </div>
             </div>
-          ))}
+          )))}
         </div>
       </div>
     </div>

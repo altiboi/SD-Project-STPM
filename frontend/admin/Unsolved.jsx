@@ -29,12 +29,11 @@ function Unsolved({ handleTicket }) {
                         <section className="profile">
                             <img src={pp} alt="" />
                             <p onClick={() => handleTicket(person._id)} className="name">
-                                {person._id}
+                                {}
                             </p>
                         </section>
                         <ul className="vC">
-                            <li className="variables">{person.title}</li>
-                            <li className="variables">{person.ticket_subject}</li>
+                            <li className="variables">{person.ticket_description}</li>
                             <li className="variables">{person.dateOpened}</li>
                         </ul>
                     </article>

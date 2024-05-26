@@ -1,30 +1,37 @@
-import React from "react";
-import  { useState, useEffect } from 'react';
-import './TaskAssigned.css'
+import React, { useEffect, useRef } from "react";
+import './TaskAssigned.css';
 
-function TaskAssigned({TaskName,AssignedTo,RequestedBy,isAssigned,close,time}){
-   
-    return(
-         <article className={isAssigned ? "box_open":"box"}>
-            <section className="above"><article className="x"><p onClick={()=>{close("Assigned")}}>x</p></article></section>
-            <section className="bottom">
-                <h5>Task Assigned!!</h5>
-                <section className="Details">
-                        <p>
-                        Task Name:{TaskName}
-                        </p>
-                        <p>
-                            Assigned To:{AssignedTo}
-                        </p>
-                        <p>
-                            Requested by:{RequestedBy}
-                        </p>
-                        <p>
-                            Time of Assignment:&nbsp;{time}
-                        </p>
+function TaskAssigned({ isAssigned, close}) {
+    const wrapperRef = useRef(null);
+
+    const handleClickOutside = (event) => {
+        if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
+            close("TaskAssigned");
+        }
+    };
+
+    useEffect(() => {
+        if (isAssigned) {
+            document.addEventListener("mousedown", handleClickOutside);
+        } else {
+            document.removeEventListener("mousedown", handleClickOutside);
+        }
+
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [isAssigned]);
+
+    return (
+        <>
+            {isAssigned && <div className="overlay" />}
+            <article ref={wrapperRef} className={isAssigned ? "box_open" : "box"}>
+                <section className="bottom">
+                    <h5>Task Assigned!!</h5>
                 </section>
-            </section>
-         </article>
+            </article>
+        </>
     );
 }
+
 export default TaskAssigned;

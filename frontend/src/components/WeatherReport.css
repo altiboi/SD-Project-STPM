@@ -1,0 +1,47 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px; /* Added padding for better spacing */
+}
+
+.graph-container {
+    width: 400px; /* Adjust width as needed */
+    height: 300px; /* Adjust height as needed */
+    border-radius: 20px; /* Adjust border-radius for rounded edges */
+    border: 2px solid #ccc; /* Border style */
+    padding: 20px; /* Padding inside the container */
+    margin: 20px 0; /* Adjust margin for spacing */
+    background-color: #f9f9f9; /* Light background color for better contrast */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for a raised effect */
+}
+
+.graph {
+    width: 100%;
+    height: 100%;
+}
+
+.dateRange {
+    padding: 10px;
+    margin-bottom: 20px; /* Margin between the dropdown and the graph container */
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    cursor: pointer;
+}
+
+.download-btn {
+    padding: 10px 20px; /* Adjusted padding for better size */
+    background-color: #007bff; /* Button background color */
+    color: #fff; /* Button text color */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px; /* Margin above the button */
+    margin-bottom: 30px; /* Margin below the button */
+}
+
+.download-btn:hover {
+    background-color: #0056b3; /* Button background color on hover */
+}

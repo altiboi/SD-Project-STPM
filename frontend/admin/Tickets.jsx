@@ -9,7 +9,7 @@ function TicketsPop({ isOpen, handleCardClick, onClose }) {
 
   const handleClickOutside = (event) => {
     if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
-      onClose();
+      onClose("Tickets");
     }
   };
 
@@ -27,7 +27,7 @@ function TicketsPop({ isOpen, handleCardClick, onClose }) {
 
   return (
     <>
-      {isOpen && <div className="overlay" onClick={onClose} />}
+      {isOpen && <div className="overlay" onClick={onClose()} />}
 
       <section
         id="TicketsPop"

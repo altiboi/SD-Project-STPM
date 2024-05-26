@@ -6,6 +6,7 @@ import Table from "./pages/Staff/Table";
 import Modal from "./pages/Staff/Modal";
 import Table1 from "./pages/Residents/Table1";
 import Modal1 from "./pages/Residents/Modal1";
+import ViewModal from "./pages/Residents/ViewModal";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useRef, useState, useEffect } from "react";
 import Loading from "./components/Loading";
@@ -50,6 +51,8 @@ import AllNotification from "../admin/AllNotification";
 import NotificationStructure from "../admin/NotificationStructure";
 import SendTo from "../admin/SendTo";
 import VNotification from "../admin/vNotification";
+import WeatherReport from "./components/WeatherReport";
+import AdminFineReport from "./components/AdminFineReport";
 
 function Dashboard() {
   const navRef = useRef();
@@ -77,6 +80,7 @@ function Dashboard() {
   const [numStaff, setNumStaff] = useState(0);
   const [ticketsPopOpen, setTicketsPopOpen] = useState(false);
   const [TicketOpen, setTicketOpen] = useState(false);
+  const [ticketName, setTicketName] = useState(null);
   const [ViewContain, setViewContain] = useState(false);
   const [NamePerson, setName] = useState(null);
   const [NamePerson1, setName1] = useState(null);
@@ -112,116 +116,6 @@ function Dashboard() {
   const closeSignUp = () => {
     setIsSignUpOpen(false);
   };
-  const ResidentsHeader = () => {
-    return (
-      <nav id="ViewBoxnav" className="ViewBoxNav">
-        <h5>Residents</h5>
-        <section className="title">
-          <div className="s1">
-            <h4>Name</h4>
-          </div>
-
-          <ul>
-            <li>Room:</li>
-            <li>Building:</li>
-          </ul>
-        </section>
-      </nav>
-    );
-  };
-  const StaffHeader = () => {
-    return (
-      <nav id="ViewBoxnav" className="ViewBoxNav">
-        <h5>View Staff</h5>
-        <section className="title">
-          <div className="s1">
-            <h4>Name</h4>
-          </div>
-          <ul>
-            <li>Role:</li>
-            <li>UnitID:</li>
-          </ul>
-        </section>
-      </nav>
-    );
-  };
-  const HistoryHeader = () => {
-    return (
-      <nav id="ViewBoxnav" className="ViewBoxNav">
-        <h5>Notifications History</h5>
-        <section className="title">
-          <div className="s1">
-            <h4>Name</h4>
-          </div>
-          <ul>
-            <li>To:</li>
-            <li>Date:</li>
-            <li></li>
-          </ul>
-        </section>
-      </nav>
-    );
-  };
-  const UnsolvedHeader = () => {
-    return (
-      <nav id="ViewBoxnav" className="ViewBoxNav">
-        <h5>View Unsolved Tickets</h5>
-        <section className="title">
-          <h4>Name</h4>
-          <ul>
-            <li>Subject:</li>
-            <li>Room On:</li>
-            <li>Time:</li>
-          </ul>
-        </section>
-      </nav>
-    );
-  };
-  const InProgressHeader = () => {
-    return (
-      <nav id="ViewBoxnav" className="ViewBoxNav">
-        <h5>View InProgress Tickets</h5>
-        <section className="title">
-          <h4>Name</h4>
-          <ul>
-            <li>Subject:</li>
-            <li>Room On:</li>
-            <li>Time:</li>
-          </ul>
-        </section>
-      </nav>
-    );
-  };
-  const SolvedHeader = () => {
-    return (
-      <nav id="ViewBoxnav" className="ViewBoxNav">
-        <h5>View Solved Tickets</h5>
-        <section className="title">
-          <h4>Name</h4>
-          <ul>
-            <li>Subject:</li>
-            <li>Room On:</li>
-            <li>Time:</li>
-          </ul>
-        </section>
-      </nav>
-    );
-  };
-  const StaffAssingHeader = () => {
-    return (
-      <nav id="viewBocNav" className="ViewBoxNav">
-        <h5>Choose a staff member to assign a task</h5>
-        <section className="title">
-          <h4>Name</h4>
-          <ul>
-            <li>Status:</li>
-            <li>Role:</li>
-            <li>UnitID:</li>
-          </ul>
-        </section>
-      </nav>
-    );
-  };
   const ifAssignedClicked = (task, name, title) => {
     handleCardClick(task);
     setName1(name);
@@ -250,7 +144,7 @@ function Dashboard() {
     setFineMember(NamePerson);
   };
   const handleTicket = (name) => {
-    setName(name);
+    setTicketName(name);
     setTicketOpen(true);
     const currentTime = new Date();
     const formattedTime = currentTime.toLocaleTimeString();
@@ -416,12 +310,17 @@ function Dashboard() {
 
   const [tickets, setTickets] = useState([]);
   const [fines, setFines] = useState([]);
+  const [allFines, setAllFines] = useState([]);
   const [notifications, setNotifications] = useState([]);
   const [notificationsCount, setNotificationsCount] = useState(0);
+  const [weatherData, setWeatherData] = useState([]);
+  const [unseenNotifications, setUnseenNotifications] = useState([]);
+
 
   const [ticketModalOpen, setTicketModalOpen] = useState(false);
   const [paymentModalOpen, setPaymentModalOpen] = useState(false);
   const [notificationModalOpen, setNotificationModalOpen] = useState(false);
+  const [viewModalOpen, setViewModalOpen] = useState(false);
   const resetActiveCard = () => {
     setActiveCard(null);
   };
@@ -433,6 +332,8 @@ function Dashboard() {
       if (userData.role === "Resident") {
         fetchFines();
       }
+      fetchWeatherData();
+      fetchAllFines();
     }
   }, [userData]);
 
@@ -510,6 +411,41 @@ function Dashboard() {
     }
   };
 
+  const fetchAllFines = async () => {
+    try {
+      let requestBody = { resident_id: userData.user_id };
+
+      // Make a POST request to the Azure Functions API endpoint
+      const response = await fetch(
+        "https://blocbuddyapi.azurewebsites.net/api/fetchFines??",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(requestBody),
+        }
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        setAllFines(data);
+      } else if (response.status === 404) {
+        setAllFines([]);
+      } else {
+        console.error(
+          "Failed to fetch fines:",
+          response.status,
+          response.statusText
+        );
+      }
+    } catch (error) {
+      console.error("Error fetching fines:", error);
+    } finally {
+      setIsReady(true);
+    }
+  };
+
   const fetchNotifications = async () => {
     try {
       const endpoint =
@@ -545,6 +481,49 @@ function Dashboard() {
     }
   };
 
+  let readNotifications = async () => {
+    try {
+      const response = await fetch("https://blocbuddyapi.azurewebsites.net/api/updateLastLogin?", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ user_id: userData.user_id })
+      });
+  
+      if (response.ok) {
+        setNotificationsCount(0);
+        setUnseenNotifications([]);
+        console.log("lastLogin updated successfully");
+      } else {
+        console.error("Failed to update lastLogin:", response.status, response.statusText);
+      }
+    } catch (error) {
+      console.error("Error updating lastLogin:", error);
+    }
+  }
+
+  let fetchWeatherData = async () => {
+    try {
+        const response = await fetch("https://blocbuddyapi.azurewebsites.net/api/fetchWeatherData", {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            setWeatherData(data);
+            // You can add any additional logic here, such as updating the UI or processing the data
+        } else {
+            console.error("Failed to fetch weather data:", response.status, response.statusText);
+        }
+    } catch (error) {
+        console.error("Error fetching weather data:", error);
+    }
+};
+
   const [rowToEdit, setRowToEdit] = useState(null);
 
   const handleDeleteRow = (targetIndex) => {
@@ -556,8 +535,18 @@ function Dashboard() {
     setTicketModalOpen(true);
   };
 
-  const handleClosePop = () => {
-    setNotificationPop(false);
+  const handleViewModal = (idx) => {
+    setRowToEdit(idx);
+    setViewModalOpen(true);
+  }
+
+  const handleClosePop = (name) => {
+    if(name==="Notification")  setNotificationPop(false);
+    if(name==="Fines") setFineTicketOpen(false);
+    if(name==="Tickets") setTicketsPopOpen(false);
+    if(name==="Unsettled") setTicketsPopOpen(false);
+    if(name==="Assigned")  setTicketOpen(false);
+    if(name==="TaskAssigned") setIsAssignd(false);
   };
 
   const handleNotificationCreatePopClose = () => {
@@ -576,32 +565,7 @@ function Dashboard() {
   const handleNotificationModal = (idx) => {
     setRowToEdit(idx);
     setNotificationModalOpen(true);
-  };
-
-  const addTickets = (newRowItem) => {
-    const currentDate = new Date();
-    const formattedDate = `${String(currentDate.getDate()).padStart(
-      2,
-      "0"
-    )}-${String(currentDate.getMonth() + 1).padStart(
-      2,
-      "0"
-    )}-${currentDate.getFullYear()}`;
-
-    const newRow = {
-      ...newRowItem,
-      dateOpened: formattedDate,
-    };
-
-    rowToEdit === null
-      ? setTickets([newRow, ...tickets])
-      : setTickets(
-          tickets.map((currRow, idx) => {
-            if (idx !== rowToEdit) return currRow;
-
-            return newRow;
-          })
-        );
+    readNotifications();
   };
 
   let payFine = async (fine_id) => {
@@ -639,14 +603,17 @@ function Dashboard() {
 
   useEffect(() => {
     let unseenCount = 0;
+    let unseen = [];
     const lastLog = new Date(userData.lastLogin);
-    notifications.forEach((notification) => {
+    notifications.forEach(notification => {
       const notiDate = new Date(notification.rawSendDate);
       if (notiDate > lastLog) {
         unseenCount++;
+        unseen.push(notification);
       }
     });
     setNotificationsCount(unseenCount);
+    setUnseenNotifications(unseen);
   }, [notifications]);
 
   const handleViewN = (newRow) => {
@@ -682,7 +649,7 @@ function Dashboard() {
             <Table1
               rows={tickets}
               deleteRow={handleDeleteRow}
-              editRow={handleEditRow}
+              editRow={handleViewModal}
             />
           );
           break;
@@ -704,7 +671,7 @@ function Dashboard() {
             <div className="report-container">
               <TicketReport tickets={tickets} />
               <FineReport fines={fines} />
-              <TicketReport tickets={tickets} />
+              <WeatherReport dailyTemperatures={weatherData}/>
             </div>
           );
           break;
@@ -715,7 +682,7 @@ function Dashboard() {
           ContentComponent = () => (
             <Content
               budgetItems={tickets}
-              notifications={notifications}
+              notifications={unseenNotifications}
               fines={fines}
             />
           );
@@ -726,8 +693,8 @@ function Dashboard() {
           ContentComponent = () => (
             <Content
               budgetItems={tickets}
-              notifications={notifications}
-              fines={fines}
+              notifications={unseenNotifications}
+              fines="no fines"
             />
           );
           break;
@@ -752,6 +719,7 @@ function Dashboard() {
           ContentComponent = () => (
             <div className="report-container">
               <TicketReport tickets={tickets} />
+              <WeatherReport dailyTemperatures={weatherData}/>
             </div>
           );
           break;
@@ -762,7 +730,7 @@ function Dashboard() {
           ContentComponent = () => (
             <Content
               budgetItems={tickets}
-              notifications={notifications}
+              notifications={unseenNotifications}
               fines={fines}
             />
           );
@@ -804,6 +772,16 @@ function Dashboard() {
                 >
                   Add
                 </button>
+              )}
+
+              {dashboardActiveLinkIdx === 1  && userData.role === "Resident" && viewModalOpen && (
+                <ViewModal 
+                closeModal={() => {
+                  setViewModalOpen(false);
+                  setRowToEdit(null);
+                }}
+                userData={userData}
+                />
               )}
 
               {dashboardActiveLinkIdx === 1 &&
@@ -906,27 +884,38 @@ function Dashboard() {
                     handleNotificationClick={handleNotificationClick}
                     handleTicket={handleTicket}
                     handleTicketClick={handleTicketClick}
+                    selectedTicketId={ticketName}
+                    TaskAssignedTo={TaskAssignedTo}
                   />
                 </>
               )}
+              {dashboardActiveLinkIdx === 2 && (
+              <>
+              <AdminFineReport fines={allFines}/>
+              <WeatherReport dailyTemperatures={weatherData}/>
+              </>
+            )}
+
+            {dashboardActiveLinkIdx === 3 && (
+              <>
+              <Profile userData={userData}/>
+              </>
+            )}
             </main>
           </div>
           <TicketsPop
             isOpen={ticketsPopOpen}
             handleCardClick={handleCardClick}
-            onClose={handleCloseTickets}
+            onClose={handleClosePop}
           />
           <TheTicket
             isClicked={TicketOpen}
-            name={NamePerson}
+            name={ticketName}
             handleCardClick={ifAssignedClicked}
+            onClose={handleClosePop}
           />
           <TaskAssigned
-            time={formattedTime}
-            close={Close}
-            RequestedBy={NamePerson1}
-            TaskName={title}
-            AssignedTo={StaffName}
+            close={handleClosePop}
             isAssigned={isAssigned}
           />
           <SideBar
@@ -938,17 +927,20 @@ function Dashboard() {
             isFineTicketOpen={FineTicketOpen}
             personName={FineMember}
             handleCardClick={handleCardClick}
+            onClose={handleClosePop}
           />
           <UnsettledFine
             personName={FineMember}
             isOpen={UnsettledPop}
             Close={Close}
             Open={Open}
+            onClose={Close}
           />
           <SettledFine
             personName={FineMember}
             isOpen={SettledPop}
             Close={Close}
+            onClose={Close}
           />
           <CreateFine
             isOpen={createFinePop}

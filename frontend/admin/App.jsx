@@ -33,9 +33,6 @@ import VNotification from './vNotification';
 function App() {
     const [searchText,setSearchText]=useState(null);
     const [isSignUpOpen, setIsSignUpOpen] = useState(false);
-    const [numResidents, setNumResidents] = useState(0);
-    const [numTickets, setNumTickets] = useState(0);
-    const [numStaff, setNumStaff] = useState(0);
     const [ticketsPopOpen, setTicketsPopOpen] = useState(false);
     const [TicketOpen, setTicketOpen] = useState(false);
     const [ViewContain, setViewContain] = useState(false);
@@ -71,111 +68,6 @@ function App() {
 
     const closeSignUp = () => {
         setIsSignUpOpen(false);
-    };
-    const ResidentsHeader = () => {
-        return (
-            <nav id="ViewBoxnav" className='ViewBoxNav'>
-                <h5>Residents</h5>
-                <section className="title">
-                    <h4>Name</h4>
-                    <ul>
-                        <li>Age:</li>
-                        <li>Room On:</li>
-                        <li>Room Type:</li>
-                    </ul>
-                </section>
-            </nav>
-        );
-    };
-    const StaffHeader = () => {
-        return (
-            <nav id="ViewBoxnav" className='ViewBoxNav'>
-                <h5>View Staff</h5>
-                <section className="title">
-                    <h4>Name</h4>
-                    <ul>
-                        <li>Email:</li>
-                        <li>Role:</li>
-                        <li>UnitID:</li>
-                    </ul>
-                </section>
-            </nav>
-        );
-    };
-    const HistoryHeader = () => {
-        return (
-            <nav id="ViewBoxnav" className='ViewBoxNav'>
-                <h5>Notifications History</h5>
-                <section className="title">
-                    <h4>Name</h4>
-                    <ul>
-                        <li>To:</li>
-                        <li>Date:</li>
-                        <li></li>
-                    </ul>
-                </section>
-            </nav>
-        );
-    };
-    const UnsolvedHeader = () => {
-        return (
-            <nav id="ViewBoxnav" className='ViewBoxNav'>
-                <h5>View Unsolved Tickets</h5>
-                <section className="title">
-                    <h4>Name</h4>
-                    <ul>
-                        <li>Subject:</li>
-                        <li>Room On:</li>
-                        <li>Time:</li>
-                    </ul>
-                </section>
-            </nav>
-        );
-    };
-    const InProgressHeader = () => {
-        return (
-            <nav id="ViewBoxnav" className='ViewBoxNav'>
-                <h5>View InProgress Tickets</h5>
-                <section className="title">
-                    <h4>Name</h4>
-                    <ul>
-                        <li>Subject:</li>
-                        <li>Room On:</li>
-                        <li>Time:</li>
-                    </ul>
-                </section>
-            </nav>
-        );
-    };
-    const SolvedHeader = () => {
-        return (
-            <nav id="ViewBoxnav" className='ViewBoxNav'>
-                <h5>View Solved Tickets</h5>
-                <section className="title">
-                    <h4>Name</h4>
-                    <ul>
-                        <li>Subject:</li>
-                        <li>Room On:</li>
-                        <li>Time:</li>
-                    </ul>
-                </section>
-            </nav>
-        );
-    };
-    const StaffAssingHeader = () => {
-        return (
-            <nav id="viewBocNav" className='ViewBoxNav'>
-                <h5>Choose a staff member to assign a task</h5>
-                <section className="title">
-                    <h4>Name</h4>
-                    <ul>
-                        <li>Status:</li>
-                        <li>Role:</li>
-                        <li>UnitID:</li>
-                    </ul>
-                </section>
-            </nav>
-        );
     };
     const ifAssignedClicked = (task, name, title) => {
         handleCardClick(task);

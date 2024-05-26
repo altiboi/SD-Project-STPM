@@ -2,13 +2,14 @@ import React, { useState, useEffect } from 'react';
 import pp from './pp.png';
 import StaffAssign from './StuffAssing'; // Ensure the import path is correct
 
-function TicketsInfor({ personName, handleTicket, ifAssignedClicked }) {
+function TicketsInfor({ personName,handleCardClick }) {
     const [residents, setResidents] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [selectedTicketId, setSelectedTicketId] = useState(null); // Initialize state
+    const [selectedTicketId, setSelectedTicketId] = useState(''); // Initialize state
 
     useEffect(() => {
+        console.log("person:"+personName)
         const fetchResidents = async () => {
             try {
                 const response = await fetch('https://showresidents.azurewebsites.net/api/getUnsolved_Tickets?');
@@ -27,10 +28,10 @@ function TicketsInfor({ personName, handleTicket, ifAssignedClicked }) {
         fetchResidents();
     }, []);
 
-    const handleAssignClick = (status, ticketId, subject) => {
-        setSelectedTicketId(ticketId);
-        ifAssignedClicked(status, ticketId, subject);
-    };
+    // const handleAssignClick = (status, ticketId) => {
+    //     setSelectedTicketId(ticketId);
+    //     ifAssignedClicked(status, ticketId);
+    // };
 
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error: {error}</p>;
@@ -55,12 +56,10 @@ function TicketsInfor({ personName, handleTicket, ifAssignedClicked }) {
                     <p>{person.ticket_description}</p>
                 </section>
                 <section className="sect4">
-                    <button onClick={() => handleAssignClick('Assigned', person._id, person.ticket_subject)}>Assign</button>
+                    <button onClick={() => handleCardClick('Assigned', person._id)}>Assign</button>
                 </section>
             </article>
-            {selectedTicketId && (
-                <StaffAssign TaskAssignedTo={handleTicket} selectedTicketId={selectedTicketId} />
-            )}
+           
         </>
     );
 }

@@ -1,26 +1,23 @@
 import React, { useState } from "react";
-import "./Modal.css";
+import "./Modal1.css";
 
-const Modal = ({ closeModal, onSubmit, defaultValue, userData }) => {
+const ViewModal = ({ closeModal, onSubmit, defaultValue, userData }) => {
   const [formState, setFormState] = useState(
     defaultValue || {
-      _id: "",
       ticket_subject: "",
       ticket_description: "",
       status: "open",
       user_id: userData.user_id,
-      staff_feedback: ""
+      feedback: "", // Include feedback in the initial state
     }
   );
   const [errors, setErrors] = useState("");
 
   const validateForm = () => {
     if (
-      formState._id &&
       formState.ticket_subject &&
       formState.ticket_description &&
-      formState.status &&
-      formState.staff_feedback
+      formState.status
     ) {
       setErrors("");
       return true;
@@ -44,35 +41,7 @@ const Modal = ({ closeModal, onSubmit, defaultValue, userData }) => {
     e.preventDefault();
 
     if (!validateForm()) return;
-
-    if (formState.status === "closed" && formState.staff_feedback !== "") {
-      try {
-        const response = await fetch(
-          "https://blocbuddyapi.azurewebsites.net/api/closeTicket?",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(formState),
-          }
-        );
-
-        if (response.ok) {
-          // Call the onSubmit function passed as a prop
-          onSubmit(formState);
-          closeModal();
-        } else {
-          throw new Error(
-            `Failed to add ticket: ${response.status} ${response.statusText}`
-          );
-        }
-      } catch (error) {
-        console.error("Error adding ticket:", error.message);
-      }
-    } else {
-      setErrors("Feedback must be provided when closing the ticket.");
-    }
+    closeModal();
   };
 
   return (
@@ -85,11 +54,12 @@ const Modal = ({ closeModal, onSubmit, defaultValue, userData }) => {
       <div className="modal">
         <form>
           <div className="form-group">
-            <label htmlFor="ticket_subject">Subject</label>
+            <label htmlFor="ticket_subject">Ticket Subject</label>
             <input
               name="ticket_subject"
               onChange={handleChange}
               value={formState.ticket_subject}
+              disabled
             />
           </div>
           <div className="form-group">
@@ -98,6 +68,7 @@ const Modal = ({ closeModal, onSubmit, defaultValue, userData }) => {
               name="ticket_description"
               onChange={handleChange}
               value={formState.ticket_description}
+              disabled
             />
           </div>
           <div className="form-group">
@@ -106,9 +77,9 @@ const Modal = ({ closeModal, onSubmit, defaultValue, userData }) => {
               name="status"
               onChange={handleChange}
               value={formState.status}
+              disabled
             >
               <option value="closed">Closed</option>
-              <option value="unresolved">Unresolved</option>
             </select>
           </div>
           <div className="form-group">
@@ -116,13 +87,14 @@ const Modal = ({ closeModal, onSubmit, defaultValue, userData }) => {
             <textarea
               name="feedback"
               onChange={handleChange}
-              value={formState.staff_feedback}
+              value={formState.feedback}
+              disabled
             />
           </div>
 
           {errors && <div className="error">{`Please include: ${errors}`}</div>}
-          <button type="submit" className="btn" onClick={handleSubmit}>
-            Submit
+          <button type="button" className="btn" onClick={handleSubmit}>
+            Close
           </button>
         </form>
       </div>
@@ -130,4 +102,4 @@ const Modal = ({ closeModal, onSubmit, defaultValue, userData }) => {
   );
 };
 
-export default Modal;
+export default ViewModal;

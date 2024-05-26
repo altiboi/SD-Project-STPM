@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
-import "./UnsettledFine.css";
+import React, { useState, useEffect, useRef } from "react";
+import "./SettledFines.css";
 
 function SettledFine({ personName, isOpen, Close }) {
   const [residents, setResidents] = useState([]);
   const [total, setTotal] = useState(0);
   const [settledFines, setSettledFines] = useState([]);
+  const wrapperRef = useRef(null);
 
   useEffect(() => {
     const fetchFines = async () => {
@@ -41,9 +42,31 @@ function SettledFine({ personName, isOpen, Close }) {
     setTotal(totalAmount);
   }, [residents, personName]);
 
+  const handleClickOutside = (event) => {
+    if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
+      Close("Settled");
+    }
+  };
+
+  useEffect(() => {
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpen]);
+
   return (
     <>
-      <article className={isOpen ? "FineArticle" : "FineArticle_close"}>
+      {isOpen && <div className="overlay" />}
+      <article
+        ref={wrapperRef}
+        className={isOpen ? "FineArticle" : "FineArticle_close"}
+      >
         <header className="head">
           <h4>Settled Fines</h4>
           <section
@@ -82,7 +105,7 @@ function SettledFine({ personName, isOpen, Close }) {
         <section className="amoutInfor">
           <section className="sectionn1">
             <p>
-              Total amount:<i className="fa-sharp fa-solid fa-circle-check"></i>
+              Total Amount:<i className="fa-sharp fa-solid fa-circle-check"></i>
             </p>
           </section>
           <section>

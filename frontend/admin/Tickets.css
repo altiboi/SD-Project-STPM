@@ -30,6 +30,7 @@
 .Tickets_open {
   top: 250px;
   left: 350px;
+
   position: absolute;
   margin-left: 40px;
   width: 810px;
@@ -43,6 +44,7 @@
   scale: 1;
   visibility: visible;
   z-index: 1001;
+  background-color: blue;
 }
 
 /* Ticket styles */

@@ -8,7 +8,7 @@ const ContentMain = ({ budgetItems, notifications, fines }) => {
     <div className="main-content-holder">
       <div className="content-grid-one">
         <Budget budgetItems={budgetItems}/>
-        <Budget3 fines={fines}/>
+        {fines !== "no fines" && <Budget3 fines={fines}/>}
         <Budget2 notifications={notifications}/>
       </div>
       <div className="content-grid-two">
