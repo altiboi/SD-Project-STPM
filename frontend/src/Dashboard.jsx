@@ -22,6 +22,7 @@ import { StaffValue } from "../admin/Staff";
 import Staff from "../admin/Staff";
 import { NumberOfFined } from "../admin/FinesMembers";
 import CardsHome, { CardsTask } from "../admin/Cards";
+import RTable from "./pages/Staff/RTable";
 
 // Admin Imports
 
@@ -116,11 +117,13 @@ function Dashboard() {
       <nav id="ViewBoxnav" className="ViewBoxNav">
         <h5>Residents</h5>
         <section className="title">
-          <h4>Name</h4>
+          <div className="s1">
+            <h4>Name</h4>
+          </div>
+
           <ul>
-            <li>Age:</li>
-            <li>Room On:</li>
-            <li>Room Type:</li>
+            <li>Room:</li>
+            <li>Building:</li>
           </ul>
         </section>
       </nav>
@@ -131,9 +134,10 @@ function Dashboard() {
       <nav id="ViewBoxnav" className="ViewBoxNav">
         <h5>View Staff</h5>
         <section className="title">
-          <h4>Name</h4>
+          <div className="s1">
+            <h4>Name</h4>
+          </div>
           <ul>
-            <li>Email:</li>
             <li>Role:</li>
             <li>UnitID:</li>
           </ul>
@@ -146,7 +150,9 @@ function Dashboard() {
       <nav id="ViewBoxnav" className="ViewBoxNav">
         <h5>Notifications History</h5>
         <section className="title">
-          <h4>Name</h4>
+          <div className="s1">
+            <h4>Name</h4>
+          </div>
           <ul>
             <li>To:</li>
             <li>Date:</li>
@@ -868,50 +874,31 @@ function Dashboard() {
               {dashboardActiveLinkIdx === 0 && (
                 <>
                   <CardsHome handleCardClick={handleCardClick}></CardsHome>
+                  <RTable filterLetters={searchText} activeCard={activeCard} />
 
-                  <article id="viewBox" className="viewBox">
-                    <section id="header" className="header">
-                      {activeCard === "Residents" && <ResidentsHeader />}
-                      {activeCard === "Staff" && <StaffHeader />}
-                      {activeCard === "Unsolved" && <UnsolvedHeader />}
-                      {activeCard === "InProgress" && <InProgressHeader />}
-                      {activeCard === "Solved" && <SolvedHeader />}
-                      {activeCard === "Assigned" && <StaffAssingHeader />}
-                      {activeCard === "Fines" && <ResidentsHeader />}
-                      {activeCard === "History" && <HistoryHeader />}
-                    </section>
-                    <section id="viewComp" className="viewComp">
-                      {activeCard === "Residents" && (
-                        <Residents filterLetters={searchText} />
-                      )}
-                      {activeCard === "Staff" && (
-                        <Staff filterLetters={searchText} />
-                      )}
-                      {activeCard === "Unsolved" && (
-                        <Unsolved handleTicket={handleTicket} />
-                      )}
-                      {activeCard === "InProgress" && (
-                        <InProgress handleTicket={handleTicket} />
-                      )}
-                      {activeCard === "Solved" && (
-                        <Solved handleTicket={handleTicket} />
-                      )}
-                      {activeCard === "Assigned" && (
-                        <StaffAssign TaskAssignedTo={TaskAssignedTo} />
-                      )}
-                      {activeCard == "History" && (
-                        <AllNotification
-                          handleNotificationClick={handleNotificationClick}
-                        />
-                      )}
-                      {activeCard === "Fines" && (
-                        <FinesMembers
-                          filterLetters={searchText}
-                          handleTicketClick={handleTicketClick}
-                        />
-                      )}
-                    </section>
-                  </article>
+                  <section id="viewComp" className="viewComp">
+                    {activeCard === "Residents"}
+                    {activeCard === "Staff"}
+                    {activeCard === "Unsolved" && (
+                      <Unsolved handleTicket={handleTicket} />
+                    )}
+                    {activeCard === "InProgress" && (
+                      <InProgress handleTicket={handleTicket} />
+                    )}
+                    {activeCard === "Solved" && (
+                      <Solved handleTicket={handleTicket} />
+                    )}
+                    {activeCard === "Assigned" && (
+                      <StaffAssign TaskAssignedTo={TaskAssignedTo} />
+                    )}
+                    {activeCard == "History"}
+                    {activeCard === "Fines" && (
+                      <FinesMembers
+                        filterLetters={searchText}
+                        handleTicketClick={handleTicketClick}
+                      />
+                    )}
+                  </section>
                 </>
               )}
 
@@ -924,6 +911,7 @@ function Dashboard() {
 
                   <article id="viewBox" className="viewBox">
                     <section id="header" className="header">
+                      {console.log(activeCard)}
                       {activeCard === "Residents" && <ResidentsHeader />}
                       {activeCard === "Staff" && <StaffHeader />}
                       {activeCard === "Unsolved" && <UnsolvedHeader />}
@@ -931,10 +919,9 @@ function Dashboard() {
                       {activeCard === "Solved" && <SolvedHeader />}
                       {activeCard === "Assigned" && <StaffAssingHeader />}
                       {activeCard === "Fines" && <ResidentsHeader />}
-                      {activeCard === "History" && <HistoryHeader />}
                     </section>
                     <section id="viewComp" className="viewComp">
-                      {activeCard === "Residents" && <Residents />}
+                      {activeCard === "Residents" && <RTable />}
                       {activeCard === "Staff" && <Staff />}
                       {activeCard === "Unsolved" && (
                         <Unsolved handleTicket={handleTicket} />
@@ -948,11 +935,7 @@ function Dashboard() {
                       {activeCard === "Assigned" && (
                         <StaffAssign TaskAssignedTo={TaskAssignedTo} />
                       )}
-                      {activeCard == "History" && (
-                        <AllNotification
-                          handleNotificationClick={handleNotificationClick}
-                        />
-                      )}
+                      {activeCard == "History"}
                       {activeCard === "Fines" && (
                         <FinesMembers
                           filterLetters={searchText}

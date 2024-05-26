@@ -1,0 +1,81 @@
+.table-wrapper {
+  width: 100%;
+}
+
+.table {
+  display: block;
+  overflow: auto;
+  table-layout: fixed;
+  border-collapse: collapse;
+  border-radius: 3px;
+  white-space: nowrap;
+  width: 100em;
+  max-width: 100%;
+  margin: auto;
+  table-layout: auto;
+  overflow-x: auto;
+  box-shadow: none;
+  border: 2px white solid;
+  height: 80%;
+}
+
+.table thead {
+  background-color: rgb(12, 20, 44);
+  color: #222;
+  position: sticky;
+  z-index: 1;
+}
+
+.table th,
+.table td {
+  padding: 0.8rem;
+  text-align: center; /* Add this line */
+  color: white;
+}
+
+.table td {
+  border-top: 0.5px solid #ddd;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.table tbody tr:hover td {
+  background-color: #eee;
+  color: #222;
+}
+
+.expand {
+  width: 100%;
+  text-align: start;
+}
+
+.label {
+  border-radius: 3px;
+  padding: 0.3rem;
+  color: white;
+}
+
+.label-open {
+  background-color: #d9534f;
+}
+
+.label-closed {
+  background-color: #42a942;
+}
+
+.label-assigned {
+  background-color: #4fa2e6;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-around;
+}
+
+.actions svg {
+  cursor: pointer;
+}
+
+.delete-btn {
+  color: #e10d05;
+}
