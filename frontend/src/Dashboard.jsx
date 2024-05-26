@@ -946,7 +946,7 @@ function Dashboard() {
                         <Solved handleTicket={handleTicket} />
                       )}
                       {activeCard === "Assigned" && (
-                        <StaffAssign TaskAssignedTo={TaskAssignedTo} />
+                        <StaffAssign TaskAssignedTo={TaskAssignedTo}  Id={NamePerson} />
                       )}
                       {activeCard == "History" && (
                         <AllNotification

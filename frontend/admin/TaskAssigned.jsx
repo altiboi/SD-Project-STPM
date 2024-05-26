@@ -9,20 +9,7 @@ function TaskAssigned({TaskName,AssignedTo,RequestedBy,isAssigned,close,time}){
             <section className="above"><article className="x"><p onClick={()=>{close("Assigned")}}>x</p></article></section>
             <section className="bottom">
                 <h5>Task Assigned!!</h5>
-                <section className="Details">
-                        <p>
-                        Task Name:{TaskName}
-                        </p>
-                        <p>
-                            Assigned To:{AssignedTo}
-                        </p>
-                        <p>
-                            Requested by:{RequestedBy}
-                        </p>
-                        <p>
-                            Time of Assignment:&nbsp;{time}
-                        </p>
-                </section>
+                
             </section>
          </article>
     );
