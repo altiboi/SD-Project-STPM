@@ -1,6 +1,7 @@
 import React from "react";
 
 import { BsFillTrashFill, BsFillPencilFill } from "react-icons/bs";
+import { GrFormView } from "react-icons/gr";
 
 import "./Table1.css";
 
@@ -13,6 +14,8 @@ const Table = ({ rows, deleteRow, editRow }) => {
             <th>Ticket Subject</th>
             <th className="expand">Description</th>
             <th>Status</th>
+            <th>Feedback</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -28,6 +31,14 @@ const Table = ({ rows, deleteRow, editRow }) => {
                   <span className={`label label-${row.status}`}>
                     {statusText}
                   </span>
+                </td>
+                <td>{row.feedback}</td>
+                <td className="pay">
+                  <GrFormView
+                    className="edit-btn"
+                    onClick={() => editRow(idx)}
+                  />
+                  {"View now"}
                 </td>
               </tr>
             );

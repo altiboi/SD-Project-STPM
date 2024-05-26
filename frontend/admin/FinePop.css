@@ -30,6 +30,7 @@
   transition: 1s;
   scale: 1;
   visibility: visible;
+  background-color: green;
 }
 
 .popTickets {

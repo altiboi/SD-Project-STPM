@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import "./Residents.css";
 
 function Residents({ filterLetters }) {
   const [residents, setResidents] = useState([]);

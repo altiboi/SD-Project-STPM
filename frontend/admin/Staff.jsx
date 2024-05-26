@@ -44,7 +44,6 @@ function Staff({ filterLetters }) {
               <p className="name">{person.Name}</p>
             </section>
             <ul className="vC">
-              <li className="variables">{person.Email}</li>
               <li className="variables">{person.Job}</li>
               <li className="variables">{person.PropertyName}</li>
             </ul>

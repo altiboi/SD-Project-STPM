@@ -22,6 +22,7 @@ import { StaffValue } from "../admin/Staff";
 import Staff from "../admin/Staff";
 import { NumberOfFined } from "../admin/FinesMembers";
 import CardsHome, { CardsTask } from "../admin/Cards";
+import RTable from "./pages/Staff/RTable";
 
 // Admin Imports
 
@@ -116,11 +117,13 @@ function Dashboard() {
       <nav id="ViewBoxnav" className="ViewBoxNav">
         <h5>Residents</h5>
         <section className="title">
-          <h4>Name</h4>
+          <div className="s1">
+            <h4>Name</h4>
+          </div>
+
           <ul>
-            <li>Age:</li>
-            <li>Room On:</li>
-            <li>Room Type:</li>
+            <li>Room:</li>
+            <li>Building:</li>
           </ul>
         </section>
       </nav>
@@ -131,9 +134,10 @@ function Dashboard() {
       <nav id="ViewBoxnav" className="ViewBoxNav">
         <h5>View Staff</h5>
         <section className="title">
-          <h4>Name</h4>
+          <div className="s1">
+            <h4>Name</h4>
+          </div>
           <ul>
-            <li>Email:</li>
             <li>Role:</li>
             <li>UnitID:</li>
           </ul>
@@ -146,7 +150,9 @@ function Dashboard() {
       <nav id="ViewBoxnav" className="ViewBoxNav">
         <h5>Notifications History</h5>
         <section className="title">
-          <h4>Name</h4>
+          <div className="s1">
+            <h4>Name</h4>
+          </div>
           <ul>
             <li>To:</li>
             <li>Date:</li>
@@ -226,31 +232,26 @@ function Dashboard() {
 
     setIsAssignd(true);
     istaskAssigned(true);
-    setMain(true);
   };
   const handleNotificationClick = (name, NamePerson) => {
     if (name == "MyN") {
       setNotificationId(NamePerson);
       setMyNotification(true);
-      setMain(true);
     }
   };
   const handleTicketClick = (name, NamePerson) => {
     if (name === "tickets") {
       setTicketsPopOpen(true);
       setSeachOpen(false);
-      setMain(true);
     } else {
       setSeachOpen(false);
       setFineTicketOpen(true);
-      setMain(true);
     }
     setFineMember(NamePerson);
   };
   const handleTicket = (name) => {
     setName(name);
     setTicketOpen(true);
-    setMain(true);
     const currentTime = new Date();
     const formattedTime = currentTime.toLocaleTimeString();
     setCurrentTime(currentTime);
@@ -284,10 +285,8 @@ function Dashboard() {
       setMain(false);
       if (cardType === "Unsettled") {
         setUnsettledPop(true);
-        setMain(true);
       } else {
         setSettledPop(true);
-        setMain(true);
       }
     }
     if (cardType === "Assigned") {
@@ -307,7 +306,7 @@ function Dashboard() {
       setSearchText(null);
 
       setActiveCard(cardType);
-      setMain(true);
+      //setMain(true);
     }
 
     if (cardType === "History") {
@@ -317,7 +316,6 @@ function Dashboard() {
     if (cardType === "cNotification") {
       setNotificationCreate(true);
       setNotificationPop(false);
-      setMain(true);
     }
     if (cardType === "dropDown") {
       setDropDownmenu(true);
@@ -358,7 +356,6 @@ function Dashboard() {
     if (name == "creatFine") {
       setCreateFinePop(true);
       setUnsettledPop(false);
-      setMain(true);
     }
   };
   const ViewActivits = (name) => {
@@ -559,6 +556,18 @@ function Dashboard() {
     setTicketModalOpen(true);
   };
 
+  const handleClosePop = () => {
+    setNotificationPop(false);
+  };
+
+  const handleNotificationCreatePopClose = () => {
+    setNotificationCreate(false);
+  };
+
+  const handleCloseTickets = () => {
+    setTicketsPopOpen(false);
+  };
+
   const handlePaymentModal = (idx) => {
     setRowToEdit(idx);
     setPaymentModalOpen(true);
@@ -743,7 +752,6 @@ function Dashboard() {
           ContentComponent = () => (
             <div className="report-container">
               <TicketReport tickets={tickets} />
-              <TicketReport tickets={tickets} />
             </div>
           );
           break;
@@ -779,7 +787,15 @@ function Dashboard() {
             />
 
             <div className="App">
-              <ContentComponent />
+              {dashboardActiveLinkIdx === 0 && (
+                <ContentComponent style={{ width: "100%" }} />
+              )}
+              {dashboardActiveLinkIdx !== 0 && (
+                <ContentComponent
+                  className="contentComponent"
+                  style={{ width: "100%" }}
+                />
+              )}
 
               {dashboardActiveLinkIdx === 1 && userData.role === "Resident" && (
                 <button
@@ -868,50 +884,11 @@ function Dashboard() {
               {dashboardActiveLinkIdx === 0 && (
                 <>
                   <CardsHome handleCardClick={handleCardClick}></CardsHome>
-
-                  <article id="viewBox" className="viewBox">
-                    <section id="header" className="header">
-                      {activeCard === "Residents" && <ResidentsHeader />}
-                      {activeCard === "Staff" && <StaffHeader />}
-                      {activeCard === "Unsolved" && <UnsolvedHeader />}
-                      {activeCard === "InProgress" && <InProgressHeader />}
-                      {activeCard === "Solved" && <SolvedHeader />}
-                      {activeCard === "Assigned" && <StaffAssingHeader />}
-                      {activeCard === "Fines" && <ResidentsHeader />}
-                      {activeCard === "History" && <HistoryHeader />}
-                    </section>
-                    <section id="viewComp" className="viewComp">
-                      {activeCard === "Residents" && (
-                        <Residents filterLetters={searchText} />
-                      )}
-                      {activeCard === "Staff" && (
-                        <Staff filterLetters={searchText} />
-                      )}
-                      {activeCard === "Unsolved" && (
-                        <Unsolved handleTicket={handleTicket} />
-                      )}
-                      {activeCard === "InProgress" && (
-                        <InProgress handleTicket={handleTicket} />
-                      )}
-                      {activeCard === "Solved" && (
-                        <Solved handleTicket={handleTicket} />
-                      )}
-                      {activeCard === "Assigned" && (
-                        <StaffAssign TaskAssignedTo={TaskAssignedTo} />
-                      )}
-                      {activeCard == "History" && (
-                        <AllNotification
-                          handleNotificationClick={handleNotificationClick}
-                        />
-                      )}
-                      {activeCard === "Fines" && (
-                        <FinesMembers
-                          filterLetters={searchText}
-                          handleTicketClick={handleTicketClick}
-                        />
-                      )}
-                    </section>
-                  </article>
+                  <RTable
+                    filterLetters={searchText}
+                    activeCard={activeCard}
+                    handleNotificationClick={handleNotificationClick}
+                  />
                 </>
               )}
 
@@ -920,47 +897,16 @@ function Dashboard() {
                   <CardsTask
                     handleTicketClick={handleTicketClick}
                     handleCardClick={handleCardClick}
+                    openSignUp={openSignUp}
                   ></CardsTask>
 
-                  <article id="viewBox" className="viewBox">
-                    <section id="header" className="header">
-                      {activeCard === "Residents" && <ResidentsHeader />}
-                      {activeCard === "Staff" && <StaffHeader />}
-                      {activeCard === "Unsolved" && <UnsolvedHeader />}
-                      {activeCard === "InProgress" && <InProgressHeader />}
-                      {activeCard === "Solved" && <SolvedHeader />}
-                      {activeCard === "Assigned" && <StaffAssingHeader />}
-                      {activeCard === "Fines" && <ResidentsHeader />}
-                      {activeCard === "History" && <HistoryHeader />}
-                    </section>
-                    <section id="viewComp" className="viewComp">
-                      {activeCard === "Residents" && <Residents />}
-                      {activeCard === "Staff" && <Staff />}
-                      {activeCard === "Unsolved" && (
-                        <Unsolved handleTicket={handleTicket} />
-                      )}
-                      {activeCard === "InProgress" && (
-                        <InProgress handleTicket={handleTicket} />
-                      )}
-                      {activeCard === "Solved" && (
-                        <Solved handleTicket={handleTicket} />
-                      )}
-                      {activeCard === "Assigned" && (
-                        <StaffAssign TaskAssignedTo={TaskAssignedTo} />
-                      )}
-                      {activeCard == "History" && (
-                        <AllNotification
-                          handleNotificationClick={handleNotificationClick}
-                        />
-                      )}
-                      {activeCard === "Fines" && (
-                        <FinesMembers
-                          filterLetters={searchText}
-                          handleTicketClick={handleTicketClick}
-                        />
-                      )}
-                    </section>
-                  </article>
+                  <RTable
+                    filterLetters={searchText}
+                    activeCard={activeCard}
+                    handleNotificationClick={handleNotificationClick}
+                    handleTicket={handleTicket}
+                    handleTicketClick={handleTicketClick}
+                  />
                 </>
               )}
             </main>
@@ -968,6 +914,7 @@ function Dashboard() {
           <TicketsPop
             isOpen={ticketsPopOpen}
             handleCardClick={handleCardClick}
+            onClose={handleCloseTickets}
           />
           <TheTicket
             isClicked={TicketOpen}
@@ -1013,6 +960,7 @@ function Dashboard() {
           <NotificationPop
             isOpen={notificationPop}
             handleCardClick={handleCardClick}
+            onClose={handleClosePop}
           />
           <NotificationStructure
             isOpen={notificationCreate}

@@ -98,6 +98,12 @@ const Sidebar = ({
           ))}
         </ul>
       </nav>
+      <button
+        className="logout-button"
+        onClick={() => logout({ returnTo: window.location.origin })}
+      >
+        Logout
+      </button>
     </div>
   );
 };

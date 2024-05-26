@@ -7,13 +7,17 @@ const Modal = ({ closeModal, onSubmit, defaultValue, userData }) => {
       ticket_subject: "",
       ticket_description: "",
       status: "open",
-      user_id: userData.user_id
+      user_id: userData.user_id,
     }
   );
   const [errors, setErrors] = useState("");
 
   const validateForm = () => {
-    if (formState.ticket_subject && formState.ticket_description && formState.status) {
+    if (
+      formState.ticket_subject &&
+      formState.ticket_description &&
+      formState.status
+    ) {
       setErrors("");
       return true;
     } else {
@@ -38,20 +42,25 @@ const Modal = ({ closeModal, onSubmit, defaultValue, userData }) => {
     if (!validateForm()) return;
 
     try {
-      const response = await fetch("https://blocbuddyapi.azurewebsites.net/api/createTicket?", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formState),
-      });
+      const response = await fetch(
+        "https://blocbuddyapi.azurewebsites.net/api/closeTicket?",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formState),
+        }
+      );
 
       if (response.ok) {
         // Call the onSubmit function passed as a prop
         onSubmit(formState);
         closeModal();
       } else {
-        throw new Error(`Failed to add ticket: ${response.status} ${response.statusText}`);
+        throw new Error(
+          `Failed to add ticket: ${response.status} ${response.statusText}`
+        );
       }
     } catch (error) {
       console.error("Error adding ticket:", error.message);
@@ -68,8 +77,7 @@ const Modal = ({ closeModal, onSubmit, defaultValue, userData }) => {
       <div className="modal">
         <form>
           <div className="form-group">
-            <label htmlFor="ticket_subject">Subject</label>{" "}
-            {/* Change here */}
+            <label htmlFor="ticket_subject">Subject</label> {/* Change here */}
             <input
               name="ticket_subject"
               onChange={handleChange}
@@ -96,6 +104,15 @@ const Modal = ({ closeModal, onSubmit, defaultValue, userData }) => {
               <option value="unresolved">Unresolved</option>
             </select>
           </div>
+          <div className="form-group">
+            <label htmlFor="feedback">Feedback</label>
+            <textarea
+              name="feedback"
+              onChange={handleChange}
+              value={formState.feedback}
+            />
+          </div>
+
           {errors && <div className="error">{`Please include: ${errors}`}</div>}
           <button type="submit" className="btn" onClick={handleSubmit}>
             Submit
