@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import bcrypt from 'bcryptjs';
 import './SignUpForm.css';
 
 function SignUpForm({ isOpen, closeSignUp }) {
@@ -18,7 +19,7 @@ function SignUpForm({ isOpen, closeSignUp }) {
         setFormData({ ...formData, [name]: value });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         // Handle form submission here
         console.log('Form submitted:', formData);
@@ -38,8 +39,10 @@ function SignUpForm({ isOpen, closeSignUp }) {
         closeSignUp();
     };
 
-    const completeSignUp = () => {
+    const completeSignUp = async () => {
         // Print out form data as JSON
+        const salt= await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(formData.Password, salt)
         const userData = {
             Role: formData.Role,
             Name: `${formData.Name} ${formData.Surname}`,
