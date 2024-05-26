@@ -1,35 +1,35 @@
 .container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .graph-container {
-    width: 400px; /* Adjust width as needed */
-    height: 250px; /* Adjust height as needed */
-    border-radius: 20px; /* Adjust border-radius for rounded edges */
-    border: 2px solid #ccc; /* Border style */
-    padding: 20px; /* Padding inside the container */
-    margin: 20px 85px 15px 85px;
-  }
-  
-  .graph {
-    width: 100%;
-    height: 100%;
-  }
-  
-  .download-btn {
-    padding: 10px ;
-    background-color: #007bff; /* Button background color */
-    color: #fff; /* Button text color */
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-bottom: 30px;
-  }
- 
-  .download-btn:hover {
-    background-color: #0056b3; /* Button background color on hover */
-  }
-  
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 33.3%;
+}
+
+.graph-container {
+  width: 400px; /* Adjust width as needed */
+  height: 250px; /* Adjust height as needed */
+  border-radius: 20px; /* Adjust border-radius for rounded edges */
+  border: 2px solid #ccc; /* Border style */
+  padding: 20px; /* Padding inside the container */
+  margin: 20px 85px 15px 85px;
+}
+
+.graph {
+  width: 100%;
+  height: 100%;
+}
+
+.download-btn {
+  padding: 10px;
+  background-color: #007bff; /* Button background color */
+  color: #fff; /* Button text color */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-bottom: 30px;
+}
+
+.download-btn:hover {
+  background-color: #0056b3; /* Button background color on hover */
+}

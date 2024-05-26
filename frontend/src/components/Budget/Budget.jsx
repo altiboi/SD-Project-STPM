@@ -8,9 +8,6 @@ const Budget = ({ budgetItems }) => {
     <div className="grid-two-item grid-common grid-c4">
       <div className="grid-c-title">
         <h3 className="grid-c-title-text">Tickets</h3>
-        <button className="grid-c-title-icon">
-          <img src={iconsImgs.plus} />
-        </button>
       </div>
       <div className="grid-c-top text-silver-v1">
         <h2 className="lg-value">Unsolved Tickets</h2>
@@ -29,11 +26,11 @@ const Budget = ({ budgetItems }) => {
                 </p>
               </div>
               <div className="grid-item-r">
-              {budget.dateOpened ? (
-        <span className="text-silver-v1">{budget.dateOpened}</span>
-      ) : (
-        <span className="text-silver-v1">Date not available</span>
-      )}
+                {budget.dateOpened ? (
+                  <span className="text-silver-v1">{budget.dateOpened}</span>
+                ) : (
+                  <span className="text-silver-v1">Date not available</span>
+                )}
               </div>
             </div>
           ))}

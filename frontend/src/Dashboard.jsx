@@ -752,7 +752,6 @@ function Dashboard() {
           ContentComponent = () => (
             <div className="report-container">
               <TicketReport tickets={tickets} />
-              <TicketReport tickets={tickets} />
             </div>
           );
           break;
@@ -788,7 +787,15 @@ function Dashboard() {
             />
 
             <div className="App">
-              <ContentComponent />
+              {dashboardActiveLinkIdx === 0 && (
+                <ContentComponent style={{ width: "100%" }} />
+              )}
+              {dashboardActiveLinkIdx !== 0 && (
+                <ContentComponent
+                  className="contentComponent"
+                  style={{ width: "100%" }}
+                />
+              )}
 
               {dashboardActiveLinkIdx === 1 && userData.role === "Resident" && (
                 <button

@@ -11,10 +11,10 @@
   border-radius: 10px;
   white-space: nowrap;
   width: 100em;
-  max-width: 80%;
+  max-width: 100%;
   margin: auto;
   table-layout: auto;
-  overflow-x: auto;
+  /* overflow-x: auto; */
   color: black;
 }
 
