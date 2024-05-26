@@ -1,17 +1,24 @@
 import React, { useState } from "react";
 import "./Modal1.css";
 
-const Modal = ({ closeModal, onSubmit, userData }) => {
-  const [formState, setFormState] = useState({
-    ticket_subject: "",
-    ticket_description: "",
-    status: "open",
-    user_id: userData.user_id
-  });
+const Modal1 = ({ closeModal, onSubmit, defaultValue, userData }) => {
+  const [formState, setFormState] = useState(
+    defaultValue || {
+      ticket_subject: "",
+      ticket_description: "",
+      status: "open",
+      user_id: userData.user_id,
+      feedback: "", // Include feedback in the initial state
+    }
+  );
   const [errors, setErrors] = useState("");
 
   const validateForm = () => {
-    if (formState.ticket_subject && formState.ticket_description && formState.status) {
+    if (
+      formState.ticket_subject &&
+      formState.ticket_description &&
+      formState.status
+    ) {
       setErrors("");
       return true;
     } else {
@@ -27,37 +34,14 @@ const Modal = ({ closeModal, onSubmit, userData }) => {
   };
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormState(prevState => ({
-      ...prevState,
-      [name]: value
-    }));
+    setFormState({ ...formState, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!validateForm()) return;
-
-    try {
-      const response = await fetch("https://blocbuddyapi.azurewebsites.net/api/createTicket", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formState),
-      });
-
-      if (response.ok) {
-        onSubmit(formState);
-        closeModal();
-      } else {
-        const errorText = await response.text();
-        throw new Error(`Failed to add ticket: ${response.status} ${response.statusText} - ${errorText}`);
-      }
-    } catch (error) {
-      console.error("Error adding ticket:", error.message);
-    }
+    closeModal();
   };
 
   return (
@@ -75,6 +59,7 @@ const Modal = ({ closeModal, onSubmit, userData }) => {
               name="ticket_subject"
               onChange={handleChange}
               value={formState.ticket_subject}
+              disabled
             />
           </div>
           <div className="form-group">
@@ -83,12 +68,33 @@ const Modal = ({ closeModal, onSubmit, userData }) => {
               name="ticket_description"
               onChange={handleChange}
               value={formState.ticket_description}
+              disabled
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="status">Status</label>
+            <select
+              name="status"
+              onChange={handleChange}
+              value={formState.status}
+              disabled
+            >
+              <option value="closed">Closed</option>
+            </select>
+          </div>
+          <div className="form-group">
+            <label htmlFor="feedback">Feedback</label>
+            <textarea
+              name="feedback"
+              onChange={handleChange}
+              value={formState.feedback}
+              disabled
             />
           </div>
 
           {errors && <div className="error">{`Please include: ${errors}`}</div>}
-          <button type="submit" className="btn" onClick={handleSubmit}>
-            Submit
+          <button type="button" className="btn" onClick={handleSubmit}>
+            Close
           </button>
         </form>
       </div>
@@ -96,4 +102,4 @@ const Modal = ({ closeModal, onSubmit, userData }) => {
   );
 };
 
-export default Modal;
+export default Modal1;

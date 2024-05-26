@@ -897,6 +897,7 @@ function Dashboard() {
                   <CardsTask
                     handleTicketClick={handleTicketClick}
                     handleCardClick={handleCardClick}
+                    openSignUp={openSignUp}
                   ></CardsTask>
 
                   <RTable
