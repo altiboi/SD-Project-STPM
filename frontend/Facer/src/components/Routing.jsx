@@ -1,20 +1,15 @@
-import FaceAuth from "./pages/FaceRecognition";
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-  Navigate,
-  useNavigate,
-} from "react-router-dom";
-import Login from "./pages/Login";
-import Profile from "./pages/Profile";
+import React from "react";
+import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
 import {
   Auth0Provider,
   useAuth0,
   withAuthenticationRequired,
 } from "@auth0/auth0-react";
-import Loading from "./components/Loading";
-import Dashboard from "./pages/Dashboard";
+import Login from "../pages/Login";
+import Profile from "../pages/Profile";
+import Dashboard from "../pages/Dashboard";
+import FaceRecognition from "../pages/FaceRecognition";
+
 const ProtectedRoute = ({ component, options }) => {
   const defaultOptions = {
     onRedirecting: () => null,
@@ -44,7 +39,7 @@ const CustomAuth0Provider = ({ children }) => {
   );
 };
 
-const App = () => {
+const Routing = () => {
   const { isLoading, error } = useAuth0();
 
   if (error) {
@@ -65,7 +60,7 @@ const App = () => {
             path="/profile"
             element={<ProtectedRoute component={Profile} />}
           />
-          <Route path="/face" element={<FaceAuth />} />
+          <Route path="/face" element={<FaceRecognition />} />
           <Route path="/dashboard" element={<Dashboard />} />
         </Routes>
       </CustomAuth0Provider>
@@ -73,4 +68,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default Routing;
