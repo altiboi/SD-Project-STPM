@@ -10,7 +10,7 @@ const Table = ({ rows, deleteRow, editRow }) => {
       <table className="table">
         <thead>
           <tr>
-            <th>Page</th>
+            <th>Ticket Number</th>
             <th className="expand">Description</th>
             <th>Status</th>
             <th>Actions</th>
@@ -23,7 +23,7 @@ const Table = ({ rows, deleteRow, editRow }) => {
 
             return (
               <tr key={idx}>
-                <td>{row.page}</td>
+                <td>{row.ticketnumber}</td>
                 <td className="expand">{row.description}</td>
                 <td>
                   <span className={`label label-${row.status}`}>

@@ -4,11 +4,45 @@ import { personsImgs } from "../utils/images";
 export const navigationLinks = [
   { id: 1, title: "Home", image: iconsImgs.home },
   { id: 2, title: "Tickets", image: iconsImgs.budget },
-  { id: 6, title: "Reports", image: iconsImgs.report },
+  { id: 6, title: "Fines", image: iconsImgs.bills },
 
   { id: 9, title: "Account", image: iconsImgs.user },
-  { id: 10, title: "Settings", image: iconsImgs.gears },
+  { id: 10, title: "Notifications", image: iconsImgs.bell },
 ];
+
+export const notifications = [
+
+
+
+  {
+    sender: "Admin",
+    description: "You have been fined R495.98 for parking in someone else's parking spot",
+    status: "unseen",
+    date: "1 January 2023",
+    amount: "R499",
+    ticketnumber: 1,
+  },
+  {
+    ref: "101",
+    description: "A noise complaint has been filed against you, and you have been charged R500",
+    status: "unseen",
+    date: "3 March 2024",
+    amount: "R739",
+    ticketnumber: 2,
+    sender: "Admin",
+    
+  },
+  {
+    ref: "102",
+    description: "There is going to be a hailstorm at 13:00 today, please be aware that it is not advised that you drive in such weather conditions",
+    status: "seen",
+    date: "7 October 2019",
+    amount: "R495",
+    ticketnumber: 3,
+    sender: "Admin",
+
+  },
+]
 
 export const transactions = [
   {

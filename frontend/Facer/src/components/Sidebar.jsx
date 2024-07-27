@@ -4,7 +4,7 @@ import { navigationLinks } from "../data/data";
 import { SidebarContext } from "./sidebarContext";
 import profilePic from "../assets/Lusanda.jpg";
 
-const Sidebar = ({ dashboardActiveLinkIdx, setDashboardActiveLinkIdx }) => {
+const Sidebar = ({ dashboardActiveLinkIdx, setDashboardActiveLinkIdx, notificationsCount }) => {
   const [activeLinkIdx, setActiveLinkIdx] = useState(0);
   const [sidebarClass, setSidebarClass] = useState("");
   const { isSidebarOpen } = useContext(SidebarContext);
@@ -44,11 +44,24 @@ const Sidebar = ({ dashboardActiveLinkIdx, setDashboardActiveLinkIdx }) => {
                   setDashboardActiveLinkIdx(index);
                 }}
               >
+
+                <div className="icon">
+
                 <img
                   src={navigationLink.image}
                   alt="nav-image"
                   className="nav-link-icon"
                 />
+
+                  {index === 4 && notificationsCount > 0 && (
+                    <div className="counter">{notificationsCount}</div>
+                  )}
+
+
+
+
+                </div>
+                
                 <span className="nav-link-text">{navigationLink.title}</span>
               </a>
             </li>

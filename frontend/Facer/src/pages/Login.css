@@ -5,13 +5,13 @@
   font-family: "Poppins";
   box-sizing: border-box;
 }
+
 .wrapper {
   width: 420px;
   background: transparent;
-  border: 2px solid rgba(255, 255, 255, rgba(255, 255, 255, 0.2));
+  border: 2px solid rgba(255, 255, 255, 0.2);
   backdrop-filter: blur(30px);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-
   color: white;
   border-radius: 10px;
   padding: 30px 40px;
@@ -70,6 +70,9 @@
   font-size: 16px;
   color: #333;
   font-weight: 700;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .Body {
@@ -80,4 +83,10 @@
   background: url("../assets/background.jpg");
   background-size: cover;
   background-position: center;
+}
+
+.google-icon {
+  width: 20px; /* Adjust width as needed */
+  height: 20px; /* Adjust height as needed */
+  margin-right: 10px; /* Space between image and text */
 }

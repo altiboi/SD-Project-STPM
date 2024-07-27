@@ -1,19 +1,18 @@
 import React, { useState } from "react";
-
 import "./Modal.css";
 
 const Modal = ({ closeModal, onSubmit, defaultValue }) => {
   const [formState, setFormState] = useState(
     defaultValue || {
-      page: "",
+      ticketnumber: "", // Change here
       description: "",
-      status: "live",
+      status: "open",
     }
   );
   const [errors, setErrors] = useState("");
 
   const validateForm = () => {
-    if (formState.page && formState.description && formState.status) {
+    if (formState.ticketnumber && formState.description && formState.status) {
       setErrors("");
       return true;
     } else {
@@ -52,8 +51,13 @@ const Modal = ({ closeModal, onSubmit, defaultValue }) => {
       <div className="modal">
         <form>
           <div className="form-group">
-            <label htmlFor="page">Page</label>
-            <input name="page" onChange={handleChange} value={formState.page} />
+            <label htmlFor="ticketnumber">Ticket Number</label>{" "}
+            {/* Change here */}
+            <input
+              name="ticketnumber" // Change here
+              onChange={handleChange}
+              value={formState.ticketnumber} // Change here
+            />
           </div>
           <div className="form-group">
             <label htmlFor="description">Description</label>
@@ -70,9 +74,9 @@ const Modal = ({ closeModal, onSubmit, defaultValue }) => {
               onChange={handleChange}
               value={formState.status}
             >
-              <option value="live">Live</option>
-              <option value="draft">Draft</option>
-              <option value="error">Error</option>
+              <option value="closed">Closed</option>
+              <option value="open">Open</option>
+              <option value="unresolved">Unresolved</option>
             </select>
           </div>
           {errors && <div className="error">{`Please include: ${errors}`}</div>}

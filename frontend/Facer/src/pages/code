@@ -1,0 +1,41 @@
+{dashboardActiveLinkIdx === 1 || dashboardActiveLinkIdx === 2 ? (
+        <div className="App">
+          <ContentComponent
+            rows={rows}
+            deleteRow={handleDeleteRow}
+            editRow={handleEditRow}
+          />
+
+          {dashboardActiveLinkIdx === 2 ? (
+            console.log("skipped")
+          ) : (
+            <button className="btn" onClick={() => setModalOpen(true)}>
+              Add
+            </button>
+          )}
+
+          {dashboardActiveLinkIdx === 1 && modalOpen && (
+            <Modal
+              closeModal={() => {
+                setModalOpen(false);
+                setRowToEdit(null);
+              }}
+              onSubmit={handleSubmit}
+              defaultValue={rowToEdit !== null && rows[rowToEdit]}
+            />
+          )}
+
+          {dashboardActiveLinkIdx === 2 && modalOpen && (
+            <PaymentModal
+              closeModal={() => {
+                setModalOpen(false);
+                setRowToEdit(null);
+              }}
+              onSubmit={handleSubmit}
+              defaultValue={rowToEdit !== null && rows[rowToEdit]}
+            />
+          )}
+        </div>
+      ) : (
+        <ContentComponent />
+      )}

@@ -1,17 +1,18 @@
 import React from "react";
+import google from '../assets/google.png';
 import "./Login.css";
 import { FaUser, FaLock } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 
 function Login() {
-  const navigator = useNavigate();
+  const navigate = useNavigate();
 
   function handleVerify() {
-    navigator("/face");
+    navigate("/face");
   }
   function handleLogin() {
-    navigator("/profile");
+    navigate("/profile");
   }
 
   return (
@@ -31,7 +32,10 @@ function Login() {
 
           <br />
 
-          <button onClick={handleLogin}>Login</button>
+          <button className="login-button" onClick={handleLogin}>
+            <img src={google} alt="Google" className="google-icon" />
+            Login
+          </button>
         </form>
 
         <br />

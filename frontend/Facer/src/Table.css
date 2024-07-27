@@ -1,28 +1,5 @@
-* {
-  margin: 0;
-  padding: 0;
-}
-
 .table-wrapper {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  flex: 1;
-  padding: 32;
-}
-
-@media screen and (max-width: 1400px) {
-  .main-content {
-    padding-left: 20px;
-    padding-right: 20px;
-  }
-}
-
-@media screen and (max-width: 1200px) {
-  .main-content {
-    padding-right: 16px;
-    padding-left: 16px;
-  }
+  width: 100% - 260px;
 }
 
 .table {
@@ -33,10 +10,11 @@
   box-shadow: 0px 10px 10px #ccc;
   border-radius: 10px;
   white-space: nowrap;
-  width: 100%; /* Change width to 100% for responsiveness */
-  max-width: 100%; /* Change max-width to 100% for responsiveness */
+  width: 100em;
+  max-width: 80%;
+  margin: auto;
+  table-layout: auto;
   overflow-x: auto;
-  background-color: rgb(12, 20, 44);
 }
 
 .table thead {
@@ -47,17 +25,17 @@
 .table th,
 .table td {
   padding: 0.8rem;
+  text-align: center; /* Add this line */
 }
 
 .table td {
   border-top: 0.5px solid #ddd;
   overflow: hidden;
   text-overflow: ellipsis;
-  color: white;
 }
 
 .table tbody tr:hover {
-  background-color: #5241eb;
+  background-color: #eee;
 }
 
 .expand {
@@ -70,15 +48,15 @@
   color: white;
 }
 
-.label-draft {
+.label-open {
   background-color: #777;
 }
 
-.label-live {
+.label-closed {
   background-color: #42a942;
 }
 
-.label-error {
+.label-unresolved {
   background-color: #d9534f;
 }
 
@@ -93,12 +71,4 @@
 
 .delete-btn {
   color: #e10d05;
-}
-
-/* Media query for smaller screens */
-@media screen and (max-width: 768px) {
-  .table td,
-  .table th {
-    padding: 0.5rem; /* Adjust padding for smaller screens */
-  }
 }
